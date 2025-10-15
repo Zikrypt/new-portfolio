@@ -809,3 +809,37 @@ window.addEventListener('beforeunload', () => {
     ScrollTrigger.getAll().forEach(trigger => trigger.kill());
   }
 });
+// Mobile-specific fixes
+function applyMobileFixes() {
+  if (window.innerWidth < 768) {
+    // Force content visibility on mobile
+    const contentEl = document.getElementById("content");
+    if (contentEl) {
+      contentEl.style.opacity = "1";
+      contentEl.style.visibility = "visible";
+      contentEl.classList.add('mobile-fix');
+    }
+    
+    // Hide preloader immediately on mobile
+    const preloaderEl = document.getElementById("preloader");
+    if (preloaderEl) {
+      preloaderEl.style.display = "none";
+    }
+    
+    // Ensure all main sections are visible
+    const mainSections = document.querySelectorAll('main, .about-section, .projects-main, .contact-main');
+    mainSections.forEach(section => {
+      section.style.opacity = "1";
+      section.style.visibility = "visible";
+    });
+  }
+}
+
+// Call this function in your DOMContentLoaded event
+document.addEventListener("DOMContentLoaded", function () {
+  // Apply mobile fixes immediately
+  applyMobileFixes();
+  
+  // Your existing initialization code...
+  // ... rest of your code
+});

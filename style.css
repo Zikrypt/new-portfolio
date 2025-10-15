@@ -1375,3 +1375,213 @@ p {
     visibility: visible !important;
   }
 }
+/* ===== MOBILE RESPONSIVENESS FIXES ===== */
+
+/* Base mobile fixes */
+@media (max-width: 767px) {
+  /* Fix main content visibility */
+  .content-container {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  /* Fix hero section spacing */
+  .hero-section,
+  .projects-hero,
+  .contact-hero {
+    padding: 1rem 0 !important;
+    margin-bottom: 2rem !important;
+  }
+  
+  /* Fix hero title sizing */
+  .hero-title {
+    font-size: 1.8rem !important;
+    line-height: 1.3 !important;
+  }
+  
+  .hero-title .title-line {
+    margin-bottom: 0.5rem !important;
+  }
+  
+  /* Fix project cards */
+  .project-card {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    padding: 1.5rem 0 !important;
+  }
+  
+  .project-image {
+    height: 200px !important;
+  }
+  
+  .project-title {
+    font-size: 1.4rem !important;
+  }
+  
+  /* Fix contact grid */
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  
+  /* Fix social media cards */
+  .social-media-card {
+    padding: 1rem !important;
+    flex-direction: column !important;
+    text-align: center !important;
+  }
+  
+  .social-icon {
+    margin-right: 0 !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  /* Fix navigation */
+  .primary-nav {
+    padding: 0.8rem 1rem !important;
+  }
+  
+  .brand a {
+    font-size: 1rem !important;
+  }
+  
+  .menu-toggle p {
+    font-size: 0.9rem !important;
+  }
+  
+  /* Fix overlay menu for mobile */
+  .overlay {
+    background: rgba(255, 255, 255, 0.98) !important;
+  }
+  
+  .featured-image {
+    display: none !important;
+  }
+  
+  .nav-menu {
+    top: 45% !important;
+    left: 1rem !important;
+    width: calc(100% - 2rem) !important;
+  }
+  
+  .nav-link {
+    font-size: 1.5rem !important;
+    margin: 0.3rem 0 !important;
+  }
+  
+  /* Fix about section */
+  .about-section {
+    padding: 3rem 1rem !important;
+  }
+  
+  .about-text {
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+  }
+  
+  /* Fix skills section */
+  .skills-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+  
+  .skill-list {
+    justify-content: flex-start !important;
+  }
+  
+  /* Fix quick contact */
+  .quick-contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  
+  .contact-method {
+    padding: 1rem !important;
+  }
+  
+  /* Fix form elements */
+  .contact-form-section {
+    padding: 1rem !important;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    padding: 0.7rem !important;
+    font-size: 16px !important; /* Prevents zoom on iOS */
+  }
+  
+  /* Ensure proper spacing */
+  main {
+    padding: 80px 1rem 1rem !important;
+  }
+}
+
+/* Tablet fixes */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-title {
+    font-size: 2.5rem !important;
+  }
+  
+  .project-card {
+    grid-template-columns: 1fr 1.5fr !important;
+    gap: 2rem !important;
+  }
+  
+  .contact-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* Fix viewport and touch issues */
+@media (max-width: 768px) {
+  /* Prevent zoom on input focus */
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+  
+  /* Improve touch targets */
+  .nav-link,
+  .project-link,
+  .social-links a,
+  .menu-toggle p,
+  .close-toggle p {
+    min-height: 44px !important;
+    min-width: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  /* Fix button sizes */
+  .submit-btn,
+  .project-link {
+    padding: 12px 20px !important;
+    font-size: 1rem !important;
+  }
+}
+
+/* Emergency visibility fixes */
+.mobile-fix {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+/* Ensure content is visible */
+.projects-main,
+.contact-main,
+.about-section {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Fix for preloader issues on mobile */
+@media (max-width: 767px) {
+  .preloader {
+    display: none !important;
+  }
+  
+  .content-container {
+    display: block !important;
+  }
+}
