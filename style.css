@@ -1859,5 +1859,169 @@ p {
     margin: 0.3rem 0 !important;
   }
 }
+  /* ===== CRITICAL RESPONSIVE FIXES ===== */
+
+/* Ensure content is always visible on mobile */
+@media (max-width: 767px) {
+  .content-container {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
   
+  /* Fix preloader hiding content on mobile */
+  .preloader {
+    display: none !important;
+  }
+  
+  /* Ensure main sections are visible */
+  main,
+  .projects-main,
+  .contact-main,
+  .about-section {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
+  
+  /* Fix hero title clipping */
+  .hero-title .title-line {
+    overflow: visible !important;
+    height: auto !important;
+  }
+  
+  .hero-title .title-line span {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  
+  /* Fix navigation menu positioning */
+  .nav-menu {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    width: calc(100% - 2rem);
+  }
+  
+  /* Ensure proper spacing */
+  .hero-section,
+  .projects-hero,
+  .contact-hero {
+    padding: 1rem 0 !important;
+    margin-bottom: 2rem !important;
+  }
+  
+  /* Fix project cards layout */
+  .project-card {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+  
+  /* Fix contact grid */
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Fix skills grid */
+  .skills-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Fix quick contact */
+  .quick-contact-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ===== IMPROVED MOBILE LAYOUT ===== */
+@media (max-width: 767px) {
+  /* Header fixes */
+  .primary-nav {
+    padding: 0.8rem 1rem !important;
+  }
+  
+  /* Hero section fixes */
+  .hero-title {
+    font-size: 1.8rem !important;
+    line-height: 1.3 !important;
+    padding: 0.5rem 0 !important;
+  }
+  
+  .hero-description {
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+  }
+  
+  /* Project card fixes */
+  .project-image {
+    height: 200px !important;
+  }
+  
+  .project-title {
+    font-size: 1.4rem !important;
+  }
+  
+  .project-links {
+    flex-direction: column;
+  }
+  
+  .project-link {
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Contact form fixes */
+  .form-group input,
+  .form-group textarea {
+    font-size: 16px !important; /* Prevent iOS zoom */
+  }
+  
+  /* Social media cards */
+  .social-media-card {
+    padding: 1rem !important;
+  }
+  
+  /* Navigation overlay fixes */
+  .nav-link {
+    font-size: 1.5rem !important;
+    margin: 0.5rem 0 !important;
+  }
+}
+
+/* ===== TABLET FIXES ===== */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-title {
+    font-size: 2.5rem !important;
+  }
+  
+  .project-card {
+    grid-template-columns: 1fr 1.5fr !important;
+  }
+  
+  .contact-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* ===== TOUCH TARGET IMPROVEMENTS ===== */
+@media (max-width: 768px) {
+  .nav-link,
+  .project-link,
+  .social-links a,
+  .menu-toggle p,
+  .close-toggle p,
+  .submit-btn {
+    min-height: 44px !important;
+    min-width: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  .menu-toggle p,
+  .close-toggle p {
+    padding: 12px !important;
+  }
+}
 }
