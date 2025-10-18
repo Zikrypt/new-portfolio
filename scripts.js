@@ -747,56 +747,76 @@ document.addEventListener("DOMContentLoaded", function () {
   console.log("DOM loaded, initializing with mobile optimizations...");
   
   try {
-    // Set initial states
-    gsap.set(".hero-title .title-line span", { y: "100%" });
-    gsap.set(".terminal-line", { opacity: 0 });
-    gsap.set(".text-reveal-element", { y: 50, opacity: 0 });
+    // Apply mobile fixes first
+    applyMobileFixes();
 
-    // Initialize core functionality first
+    // Initialize core functionality
     initializeMenu();
-    
+
     // Check if we're on a page with preloader
     const preloaderEl = document.getElementById("preloader");
-    
-    if (preloaderEl) {
-      console.log("Preloader found, starting animation sequence");
-      createDraggableShapes();
-      animateTerminalPreloader();
-    } else {
-      console.log("No preloader found, revealing content immediately");
-      createDraggableShapes();
-      
+
+    // Mobile: skip preloader and animations
+    if (window.innerWidth < 768) {
+      if (preloaderEl) {
+        preloaderEl.style.display = "none";
+      }
+
       const contentEl = document.getElementById("content");
       if (contentEl) {
         contentEl.style.opacity = "1";
         contentEl.style.visibility = "visible";
       }
-      
+
+      createDraggableShapes();
       initScrollAnimations();
-      initTextAnimations();
-    }
-    
-    // Initialize other features
-    setTimeout(() => {
-      initCursorEffects();
       initFormInteractions();
       addEnhancedStyles();
-    }, 100);
-    
+    } else {
+      // Desktop: use animations
+      gsap.set(".hero-title .title-line span", { y: "100%" });
+      gsap.set(".terminal-line", { opacity: 0 });
+      gsap.set(".text-reveal-element", { y: 50, opacity: 0 });
+
+      if (preloaderEl) {
+        console.log("Preloader found, starting animation sequence");
+        createDraggableShapes();
+        animateTerminalPreloader();
+      } else {
+        console.log("No preloader found, revealing content immediately");
+        createDraggableShapes();
+
+        const contentEl = document.getElementById("content");
+        if (contentEl) {
+          contentEl.style.opacity = "1";
+          contentEl.style.visibility = "visible";
+        }
+
+        initScrollAnimations();
+        initTextAnimations();
+      }
+
+      setTimeout(() => {
+        initCursorEffects();
+        initFormInteractions();
+        addEnhancedStyles();
+      }, 100);
+    }
+
     // Add resize handler
     window.addEventListener('resize', handleResize);
-    
+
   } catch (error) {
     console.error("Initialization error:", error);
-    
+
     const contentEl = document.getElementById("content");
     const preloaderEl = document.getElementById("preloader");
-    
+
     if (contentEl) {
       contentEl.style.opacity = "1";
       contentEl.style.visibility = "visible";
     }
-    
+
     if (preloaderEl) {
       preloaderEl.style.display = "none";
     }
@@ -809,6 +829,7 @@ window.addEventListener('beforeunload', () => {
     ScrollTrigger.getAll().forEach(trigger => trigger.kill());
   }
 });
+
 // Mobile-specific fixes
 function applyMobileFixes() {
   if (window.innerWidth < 768) {
@@ -819,13 +840,13 @@ function applyMobileFixes() {
       contentEl.style.visibility = "visible";
       contentEl.classList.add('mobile-fix');
     }
-    
+
     // Hide preloader immediately on mobile
     const preloaderEl = document.getElementById("preloader");
     if (preloaderEl) {
       preloaderEl.style.display = "none";
     }
-    
+
     // Ensure all main sections are visible
     const mainSections = document.querySelectorAll('main, .about-section, .projects-main, .contact-main');
     mainSections.forEach(section => {
@@ -834,122 +855,3 @@ function applyMobileFixes() {
     });
   }
 }
-// Enhanced Mobile Detection and Fixes
-function applyMobileFixes() {
-  if (window.innerWidth < 768) {
-    console.log("Applying mobile fixes...");
-    
-    // Force content visibility immediately
-    const contentEl = document.getElementById("content");
-    if (contentEl) {
-      contentEl.style.opacity = "1";
-      contentEl.style.visibility = "visible";
-      contentEl.classList.add('mobile-visible');
-    }
-    
-    // Hide preloader immediately on mobile
-    const preloaderEl = document.getElementById("preloader");
-    if (preloaderEl) {
-      preloaderEl.style.display = "none";
-    }
-    
-    // Ensure all main content is visible
-    const mainSections = document.querySelectorAll('main, section, .projects-main, .contact-main, .about-section');
-    mainSections.forEach(section => {
-      section.style.opacity = "1";
-      section.style.visibility = "visible";
-    });
-    
-    // Fix hero title animations
-    const heroTitleSpans = document.querySelectorAll('.hero-title .title-line span');
-    heroTitleSpans.forEach(span => {
-      span.style.transform = "none";
-      span.style.opacity = "1";
-    });
-  }
-}
-
-// Enhanced initialization with mobile priority
-document.addEventListener("DOMContentLoaded", function () {
-  console.log("DOM loaded, applying mobile-first initialization...");
-  
-  // Apply mobile fixes FIRST
-  applyMobileFixes();
-  
-  try {
-    // Set initial states only for desktop
-    if (window.innerWidth >= 768) {
-      gsap.set(".hero-title .title-line span", { y: "100%" });
-      gsap.set(".terminal-line", { opacity: 0 });
-      gsap.set(".text-reveal-element", { y: 50, opacity: 0 });
-    } else {
-      // Mobile: ensure everything is visible
-      gsap.set(".hero-title .title-line span", { y: "0%", opacity: 1 });
-      gsap.set(".text-reveal-element", { y: 0, opacity: 1 });
-    }
-
-    // Initialize core functionality
-    initializeMenu();
-    
-    // Check if we're on a page with preloader (desktop only)
-    const preloaderEl = document.getElementById("preloader");
-    
-    if (preloaderEl && window.innerWidth >= 768) {
-      console.log("Preloader found, starting animation sequence");
-      createDraggableShapes();
-      animateTerminalPreloader();
-    } else {
-      console.log("No preloader or mobile device, revealing content immediately");
-      createDraggableShapes();
-      
-      const contentEl = document.getElementById("content");
-      if (contentEl) {
-        contentEl.style.opacity = "1";
-        contentEl.style.visibility = "visible";
-      }
-      
-      // Initialize animations only if not mobile
-      if (window.innerWidth >= 768) {
-        initScrollAnimations();
-        initTextAnimations();
-      }
-    }
-    
-    // Initialize other features with mobile check
-    setTimeout(() => {
-      if (window.innerWidth >= 768) {
-        initCursorEffects();
-      }
-      initFormInteractions();
-      addEnhancedStyles();
-    }, 100);
-    
-    // Add resize handler
-    window.addEventListener('resize', handleResize);
-    
-  } catch (error) {
-    console.error("Initialization error:", error);
-    // Emergency fallback - ensure content is visible
-    applyMobileFixes();
-  }
-});
-
-// Update the handleResize function
-function handleResize() {
-  // Reinitialize animations on resize if needed
-  if (typeof ScrollTrigger !== 'undefined') {
-    ScrollTrigger.refresh();
-  }
-  
-  // Re-apply mobile fixes if needed
-  applyMobileFixes();
-}
-
-// Call this function in your DOMContentLoaded event
-document.addEventListener("DOMContentLoaded", function () {
-  // Apply mobile fixes immediately
-  applyMobileFixes();
-  
-  // Your existing initialization code...
-  // ... rest of your code
-});
