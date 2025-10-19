@@ -290,13 +290,95 @@ function initCursorEffects() {
   }
 }
 
-// Enhanced Form Interactions
+// FIXED Form Interactions - Now works with Formspree
 function initFormInteractions() {
   const form = document.querySelector('.contact-form');
   if (!form) return;
   
   const inputs = form.querySelectorAll('input, textarea');
+  const statusElement = document.getElementById('form-status') || createStatusElement(form);
   
+  // Remove any existing submit event listeners to prevent conflicts
+  const newForm = form.cloneNode(true);
+  form.parentNode.replaceChild(newForm, form);
+  
+  // Add new submit listener to the fresh form
+  newForm.addEventListener('submit', handleFormSubmit);
+  
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    
+    const submitBtn = newForm.querySelector('.submit-btn');
+    const originalText = submitBtn.textContent;
+    
+    // Show loading state
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
+    statusElement.style.display = 'none';
+    
+    // Get form data
+    const formData = new FormData(newForm);
+    
+    // Send to Formspree
+    fetch(newForm.action, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        // Success
+        showStatus('Message sent successfully!', 'success');
+        newForm.reset();
+        submitBtn.textContent = 'Message Sent!';
+        submitBtn.style.background = 'var(--color-accent)';
+        
+        // Reset button after delay
+        setTimeout(() => {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+          submitBtn.style.background = '';
+        }, 3000);
+      } else {
+        throw new Error('Form submission failed');
+      }
+    })
+    .catch(error => {
+      // Error
+      showStatus('Sorry, there was an error sending your message. Please try again.', 'error');
+      submitBtn.textContent = 'Error - Try Again';
+      submitBtn.style.background = '#ef4444';
+      
+      setTimeout(() => {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        submitBtn.style.background = '';
+      }, 3000);
+    });
+  }
+  
+  function showStatus(message, type) {
+    statusElement.textContent = message;
+    statusElement.style.display = 'block';
+    statusElement.style.background = type === 'success' ? 'rgba(76, 175, 80, 0.1)' : 'rgba(244, 67, 54, 0.1)';
+    statusElement.style.border = type === 'success' ? '1px solid #4CAF50' : '1px solid #f44336';
+    statusElement.style.color = type === 'success' ? '#4CAF50' : '#f44336';
+  }
+  
+  function createStatusElement(form) {
+    const statusEl = document.createElement('div');
+    statusEl.id = 'form-status';
+    statusEl.style.display = 'none';
+    statusEl.style.marginTop = '1rem';
+    statusEl.style.padding = '0.5rem';
+    statusEl.style.borderRadius = '4px';
+    form.appendChild(statusEl);
+    return statusEl;
+  }
+  
+  // Keep the existing input interactions
   inputs.forEach(input => {
     input.addEventListener('focus', () => {
       input.parentElement.classList.add('focused');
@@ -309,48 +391,6 @@ function initFormInteractions() {
     input.addEventListener('input', () => {
       validateField(input);
     });
-  });
-  
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const submitBtn = form.querySelector('.submit-btn');
-    const originalText = submitBtn.textContent;
-    
-    // Loading state
-    submitBtn.textContent = 'Sending...';
-    submitBtn.disabled = true;
-    
-    gsap.to(submitBtn, {
-      scale: 0.95,
-      duration: 0.2,
-      yoyo: true,
-      repeat: 1
-    });
-    
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      submitBtn.textContent = 'Message Sent!';
-      submitBtn.style.background = 'var(--color-accent)';
-      
-      setTimeout(() => {
-        form.reset();
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-        submitBtn.style.background = '';
-      }, 3000);
-      
-    } catch (error) {
-      submitBtn.textContent = 'Error - Try Again';
-      submitBtn.style.background = '#ef4444';
-      
-      setTimeout(() => {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-        submitBtn.style.background = '';
-      }, 3000);
-    }
   });
 }
 
@@ -709,6 +749,11 @@ function addEnhancedStyles() {
       html {
         scroll-behavior: auto;
       }
+    }
+    
+    /* Form status styles */
+    #form-status {
+      transition: all 0.3s ease;
     }
   `;
   
