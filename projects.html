@@ -2,280 +2,184 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects - Zikora Okelo</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Observer.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects &mdash; Zikora Okelo</title>
+  <meta name="description" content="Selected work by Zikora Okelo — web development, blockchain, mobile and security projects.">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
+  <!-- Navigation -->
+  <header class="site-nav">
+    <a href="index.html" class="nav-logo">ZIK<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="Okelo Zikora CV.pdf" class="nav-cta" download>Download CV</a></li>
+    </ul>
+    <div class="nav-hamburger" aria-label="Open menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
 
-    <!-- Navigation -->
-    <header class="site-header">
-        <nav class="primary-nav">
-            <div class="grid">
-                <div class="brand">
-                    <div class="text-reveal">
-                        <a href="index.html">Zikora Okelo</a>
-                    </div>
-                </div>
-                <div class="menu-toggle">
-                    <div class="text-reveal">
-                        <p id="menu-btn">Menu</p>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <!-- Overlay Menu -->
-        <div class="overlay" id="overlay">
-            <div class="featured-image" id="featured-image">
-                <video autoplay muted loop playsinline>
-                    <source src="bgvideo.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-            <div class="overlay-header">
-                <div class="grid">
-                    <div class="overlay-brand">
-                        <div class="text-reveal">
-                            <a href="index.html">Projects Portfolio</a>
-                        </div>
-                    </div>
-                    <div class="close-toggle">
-                        <div class="text-reveal">
-                            <p id="close-btn">Close</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <nav class="nav-menu">
-                <div class="nav-menu-inner">
-                    <div class="nav-item">
-                        <div class="text-reveal">
-                            <a href="index.html" class="nav-link shift-effect">Home</a>
-                        </div>
-                    </div>
-                    <div class="nav-item">
-                        <div class="text-reveal">
-                            <a href="casestudy.html" class="nav-link shift-effect">Case Study</a>
-                        </div>
-                    </div>
-                    <div class="nav-item">
-                        <div class="text-reveal">
-                            <a href="Okelo Zikora CV.pdf" class="nav-link shift-effect">CV</a>
-                        </div>
-                    </div>
-                    <div class="nav-item">
-                        <div class="text-reveal">
-                            <a href="contact.html" class="nav-link shift-effect">Contact</a>
-                        </div>
-                    </div>
-                    <div class="nav-item">
-                        <div class="text-reveal">
-                            <a href="index.html#about" class="nav-link shift-effect">About Me</a>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-            <footer class="overlay-footer">
-                <div class="grid">
-                    <div class="copyright">
-                        <div class="text-reveal">
-                            <p>&copy; Zikora Okelo Samuel</p>
-                        </div>
-                    </div>
-                    <div class="social-links">
-                        <div class="text-reveal">
-                            <a href="https://www.snapchat.com/add/ziggy005?share_id=0yUR2HupNZg&locale=en-NG">Snapchat</a>
-                        </div>
-                        <div class="text-reveal">
-                            <a href="https://www.instagram.com/_zikora.__?igsh=NmtidXp3OGE3b2Mw">Instagram</a>
-                        </div>
-                        <div class="text-reveal">
-                            <a href="https://x.com/HACKWITHZIK?t=9xLb6f-1sVy4CgdFp2sOWw&s=09">X</a>
-                        </div>
-                        <div class="text-reveal">
-                            <a href="+2349011172838">Whatsapp</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+  <!-- Mobile Nav -->
+  <div class="nav-mobile-overlay">
+    <ul class="nav-mobile-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="Okelo Zikora CV.pdf" download>CV</a></li>
+    </ul>
+    <div class="nav-mobile-footer">
+      <a href="https://x.com/HACKWITHZIK?t=9xLb6f-1sVy4CgdFp2sOWw&s=09" target="_blank" rel="noopener">X</a>
+      <a href="https://www.instagram.com/_zikora.__?igsh=NmtidXp3OGE3b2Mw" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://github.com/Zikrypt" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/zikora-okelo-8818252a8" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+
+  <!-- Page Header -->
+  <div class="projects-header">
+    <div class="section__label">Selected Work</div>
+    <h1>MY<br>PROJECTS</h1>
+  </div>
+
+  <!-- Projects List -->
+  <section class="projects-list">
+
+    <!-- 01 -->
+    <a href="https://www.pekamyfreshminds.com/" target="_blank" rel="noopener" class="project-item">
+      <span class="project-item__num">01</span>
+      <div class="project-item__info">
+        <h2 class="project-item__title">Pekamy Freshminds</h2>
+        <span class="project-item__category">Web Development &middot; Recruitment Platform</span>
+        <div class="project-item__tags">
+          <span class="project-tag">React</span>
+          <span class="project-tag">Node.js</span>
+          <span class="project-tag">HTML/CSS</span>
+          <span class="project-tag">JavaScript</span>
         </div>
-    </header>
+      </div>
+      <div class="project-item__image">
+        <img src="Images/recruitment bg.jpg" alt="Pekamy Freshminds">
+      </div>
+      <span class="project-item__arrow">&#8599;</span>
+    </a>
 
-    <!-- Main Content -->
-    <main class="projects-main">
-        <div class="content-container" id="content" style="opacity: 1; visibility: visible;">
-
-            <!-- Hero Section -->
-            <section class="projects-hero">
-                <div class="hero-content">
-                    <h1 class="hero-title">
-                        <span class="title-line"><span>My Projects</span></span>
-                        <span class="title-line"><span>Building </span></span>
-                        <span class="title-line"><span>Experiences</span></span>
-                    </h1>
-                    <br>
-                    <p class="hero-description">
-                        A collection of my work spanning web development, blockchain technology,
-                        and mobile applications. Each project represents a unique challenge and
-                        innovative solution.
-                    </p>
-                </div>
-            </section>
-
-            <!-- Projects Grid -->
-            <section class="projects-grid">
-
-                <!-- Pekamy Freshminds -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="Images/recruitment bg.jpg" alt="Everyday Motors Car Sales Platform"
-                            class="project-img">
-                    </div>
-                    <div class="project-content">
-                        <span class="project-category">Web Development</span>
-                        <h3 class="project-title">Pekamy Freshminds</h3>
-                        <p class="project-description">
-                            A modern recruitment platform designed to connect top talent with leading companies.
-                            Features include advanced candidate matching, interview scheduling, and employer dashboards.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">HTML/CSS</span>
-                            <span class="tech-tag">JavaScript</span>
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Node.js</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://www.pekamyfreshminds.com/" class="project-link">Live Demo</a>
-                            <a href="casestudy.html#Pekamy Freshminds" class="project-link">Case Study</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Everyday Motors -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="Images/car bg.jpg" class="project-img" alt="Everyday Motors Car Sales Platform">
-                    </div>
-                    <div class="project-content">
-                        <span class="project-category">Web Development</span>
-                        <h3 class="project-title">Everyday Motors</h3>
-                        <p class="project-description">
-                            A comprehensive car dealership website with inventory management,
-                            vehicle search filters, financing calculators, and customer relationship management.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">HTML/CSS</span>
-                            <span class="tech-tag">JavaScript</span>
-                            <span class="tech-tag">PHP</span>
-                            <span class="tech-tag">MySQL</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" class="project-link">Live Demo</a>
-                            <a href="casestudy.html#Everyday Motors" class="project-link">Case Study</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Solana Copy Bot -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="Images/solanabg.jpg" alt="" class="project-img">
-                    </div>
-                    <div class="project-content">
-                        <span class="project-category">Blockchain & Bot Development</span>
-                        <h3 class="project-title">Solana Copy Trading Bot</h3>
-                        <p class="project-description">
-                            An advanced automated trading bot for the Solana blockchain that replicates
-                            successful traders' strategies in real-time with risk management features.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Solana SDK</span>
-                            <span class="tech-tag">Web3</span>
-                            <span class="tech-tag">API Integration</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://github.com/Zikrypt" class="project-link">GitHub</a>
-                            <a href="casestudy.html#Solana Copy Trading Bot" class="project-link">Documentation</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- VPN App -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="Images/vpnbg.jpg" class="project-img" alt="">
-                    </div>
-                    <div class="project-content">
-                        <span class="project-category">Mobile App Development</span>
-                        <h3 class="project-title">Secure VPN Application</h3>
-                        <p class="project-description">
-                            A cross-platform VPN application providing secure and private internet access
-                            with multiple server locations, kill switch functionality, and zero-log policy.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">React Native</span>
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">WireGuard</span>
-                            <span class="tech-tag">AWS</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://play.google.com/store/apps/details?id=com.freevpnplanet" class="project-link">App Store</a>
-                            <a href="https://play.google.com/store/apps/details?id=com.freevpnplanet" class="project-link">Play Store</a>
-                        </div>
-                    </div>
-                </div>
-
-            </section>
-
-            <!-- Skills Section -->
-            <section class="skills-section">
-                <h2 class="skills-title">Technologies & Expertise</h2>
-                <div class="skills-grid">
-                    <div class="skill-category">
-                        <h3>Web Development</h3>
-                        <div class="skill-list">
-                            <span>HTML5/CSS3</span>
-                            <span>JavaScript</span>
-                            <span>React</span>
-                            <span>Node.js</span>
-                            <span>PHP</span>
-                            <span>MySQL</span>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>Blockchain & Web3</h3>
-                        <div class="skill-list">
-                            <span>Solana</span>
-                            <span>Smart Contracts</span>
-                            <span>Web3.js</span>
-                            <span>DeFi Protocols</span>
-                            <span>Token Development</span>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>Mobile Development</h3>
-                        <div class="skill-list">
-                            <span>React Native</span>
-                            <span>iOS/Android</span>
-                            <span>Cross-platform</span>
-                            <span>App Store Deployment</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+    <!-- 02 -->
+    <a href="casestudy.html" class="project-item">
+      <span class="project-item__num">02</span>
+      <div class="project-item__info">
+        <h2 class="project-item__title">Everyday Motors</h2>
+        <span class="project-item__category">Web Development &middot; Car Dealership</span>
+        <div class="project-item__tags">
+          <span class="project-tag">PHP</span>
+          <span class="project-tag">MySQL</span>
+          <span class="project-tag">HTML/CSS</span>
+          <span class="project-tag">JavaScript</span>
         </div>
-    </main>
+      </div>
+      <div class="project-item__image">
+        <img src="Images/car bg.jpg" alt="Everyday Motors">
+      </div>
+      <span class="project-item__arrow">&#8599;</span>
+    </a>
 
-    <script src="scripts.js"></script>
+    <!-- 03 -->
+    <a href="https://github.com/Zikrypt" target="_blank" rel="noopener" class="project-item">
+      <span class="project-item__num">03</span>
+      <div class="project-item__info">
+        <h2 class="project-item__title">Solana Copy Trading Bot</h2>
+        <span class="project-item__category">Blockchain &middot; Bot Development</span>
+        <div class="project-item__tags">
+          <span class="project-tag">Python</span>
+          <span class="project-tag">Solana SDK</span>
+          <span class="project-tag">Web3</span>
+          <span class="project-tag">API Integration</span>
+        </div>
+      </div>
+      <div class="project-item__image">
+        <img src="Images/solanabg.jpg" alt="Solana Trading Bot">
+      </div>
+      <span class="project-item__arrow">&#8599;</span>
+    </a>
+
+    <!-- 04 -->
+    <a href="https://play.google.com/store/apps/details?id=com.freevpnplanet" target="_blank" rel="noopener" class="project-item">
+      <span class="project-item__num">04</span>
+      <div class="project-item__info">
+        <h2 class="project-item__title">Secure VPN Application</h2>
+        <span class="project-item__category">Mobile Development &middot; Security</span>
+        <div class="project-item__tags">
+          <span class="project-tag">React Native</span>
+          <span class="project-tag">Node.js</span>
+          <span class="project-tag">WireGuard</span>
+          <span class="project-tag">AWS</span>
+        </div>
+      </div>
+      <div class="project-item__image">
+        <img src="Images/vpnbg.jpg" alt="Secure VPN App">
+      </div>
+      <span class="project-item__arrow">&#8599;</span>
+    </a>
+
+  </section>
+
+  <!-- Skills -->
+  <section class="skills-strip">
+    <h2 class="reveal">Technologies &amp; Expertise</h2>
+    <div class="skills-categories">
+      <div class="skill-cat reveal">
+        <p class="skill-cat__title">Web Development</p>
+        <div class="skill-cat__items">
+          <span>HTML5 / CSS3</span>
+          <span>JavaScript</span>
+          <span>React</span>
+          <span>Node.js</span>
+          <span>PHP</span>
+          <span>MySQL</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal reveal-delay-1">
+        <p class="skill-cat__title">Blockchain &amp; Web3</p>
+        <div class="skill-cat__items">
+          <span>Solana</span>
+          <span>Smart Contracts</span>
+          <span>Web3.js</span>
+          <span>DeFi Protocols</span>
+          <span>Token Development</span>
+        </div>
+      </div>
+      <div class="skill-cat reveal reveal-delay-2">
+        <p class="skill-cat__title">Mobile &amp; Security</p>
+        <div class="skill-cat__items">
+          <span>React Native</span>
+          <span>iOS / Android</span>
+          <span>WireGuard / VPN</span>
+          <span>Cybersecurity</span>
+          <span>Python / C++</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p class="footer__copy">&copy; 2026 Zikora Okelo Samuel</p>
+    <div class="footer__links">
+      <a href="https://x.com/HACKWITHZIK?t=9xLb6f-1sVy4CgdFp2sOWw&s=09" target="_blank" rel="noopener">X</a>
+      <a href="https://www.instagram.com/_zikora.__?igsh=NmtidXp3OGE3b2Mw" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://github.com/Zikrypt" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/zikora-okelo-8818252a8" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </footer>
+
+  <script src="scripts.js"></script>
 </body>
 
 </html>
