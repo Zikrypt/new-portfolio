@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.pash.website)",
+      "WebFetch(domain:www.studiodado.com)",
+      "WebFetch(domain:www.n47.com)",
+      "WebFetch(domain:www.leonardofrigo.com)",
+      "Bash(npx --version)",
+      "Bash(npx skills *)",
+      "Bash(grep -E \"\\\\.\\(js|css|html|json\\)$\")",
+      "mcp__Claude_Preview__preview_start"
+    ]
+  }
+}

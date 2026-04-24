@@ -1,902 +1,613 @@
-// Enhanced Draggable shapes functionality with Mobile Optimizations
-function createDraggableShapes() {
-  const backgroundContainer = document.createElement('div');
-  backgroundContainer.className = 'background-container';
-  document.body.appendChild(backgroundContainer);
+/* ============================================================
+   Okelo Zikora Portfolio — Animation Engine
+   Easing: cubic-bezier(0.496, 0.004, 0, 1) = GSAP power3.out approx
+   ============================================================ */
 
-  const shapes = [];
-  const shapeTypes = ['circle', 'square'];
-  const colors = ['brown', 'beige', 'green'];
-  
-  // Reduced number of shapes for mobile performance
-  const shapeCount = window.innerWidth < 768 ? 6 : 10;
-  
-  for (let i = 0; i < shapeCount; i++) {
-    const shape = document.createElement('div');
-    const shapeType = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    
-    shape.className = `draggable-shape shape-${shapeType} shape-${color}`;
-    shape.setAttribute('data-shape-id', i);
-    
-    // Size based on screen size
-    const size = window.innerWidth < 768 ? 
-      Math.random() * 40 + 30 : 
-      Math.random() * 80 + 40;
-    
-    if (shapeType === 'triangle') {
-      shape.style.width = '0';
-      shape.style.height = '0';
-      shape.style.borderLeft = `${size/2}px solid transparent`;
-      shape.style.borderRight = `${size/2}px solid transparent`;
-    } else {
-      shape.style.width = `${size}px`;
-      shape.style.height = `${size}px`;
-    }
-    
-    // Enhanced random position with boundaries
-    shape.style.left = `${Math.random() * 85}%`;
-    shape.style.top = `${Math.random() * 85}%`;
-    
-    // Reduced animation complexity for mobile
-    const opacity = 0.4 + Math.random() * 0.3;
-    const animationDelay = Math.random() * 5;
-    
-    shape.style.opacity = opacity;
-    shape.style.animationDelay = `${animationDelay}s`;
-    
-    // Random rotation for squares only
-    if (shapeType === 'square') {
-      const rotation = Math.random() * 360;
-      shape.style.transform = `rotate(${rotation}deg)`;
-    }
-    
-    backgroundContainer.appendChild(shape);
-    shapes.push(shape);
-    
-    // Make shape draggable with enhanced functionality
-    makeDraggable(shape);
-    
-    // Add click interaction for micro-interactions
-    shape.addEventListener('click', (e) => {
-      e.stopPropagation();
-      animateShapeClick(shape);
+gsap.registerPlugin(ScrollTrigger);
+if (typeof SplitText !== 'undefined') gsap.registerPlugin(SplitText);
+
+/* Closest GSAP match to the reference cubic-bezier(0.496, 0.004, 0, 1) */
+const EASE      = 'power3.out';
+const EASE_SOFT = 'power2.out';
+
+/* ============================================================
+   LENIS SMOOTH SCROLL
+   ============================================================ */
+function initLenis() {
+  if (typeof Lenis === 'undefined') return null;
+
+  const lenis = new Lenis({
+    duration: 1.25,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smooth: true,
+    smoothTouch: false,
+  });
+
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+  gsap.ticker.lagSmoothing(0);
+
+  return lenis;
+}
+
+/* ============================================================
+   LIVE CLOCK
+   ============================================================ */
+function initClock() {
+  function tick() {
+    const now  = new Date();
+    const h    = now.getHours();
+    const m    = String(now.getMinutes()).padStart(2, '0');
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const str  = `${h % 12 || 12}:${m} ${ampm}`;
+    const nav    = document.getElementById('nav-time');
+    const footer = document.getElementById('footer-time');
+    if (nav)    nav.textContent    = str;
+    if (footer) footer.textContent = str;
+  }
+  tick();
+  setInterval(tick, 30000);
+}
+
+/* ============================================================
+   PRELOADER
+   — counter counts 0→100 in display font
+   — yellow bar uses scaleX (GPU-accelerated) not width
+   ============================================================ */
+function initPreloader(onComplete) {
+  const el      = document.getElementById('preloader');
+  const counter = document.getElementById('preloader-counter');
+  const bar     = document.getElementById('preloader-bar');
+
+  if (!el || !counter) { onComplete?.(); return; }
+
+  const obj = { val: 0 };
+
+  gsap.to(obj, {
+    val: 100,
+    duration: 2.4,
+    ease: 'power2.inOut',
+    onUpdate() {
+      const v = Math.round(obj.val);
+      counter.textContent = v;
+      /* scaleX(0→1) for GPU-accelerated progress bar */
+      if (bar) bar.style.transform = `scaleX(${v / 100})`;
+    },
+    onComplete() {
+      gsap.to(el, {
+        yPercent: -100,
+        duration: 0.85,
+        ease: EASE,
+        onComplete() {
+          el.style.display = 'none';
+          onComplete?.();
+        },
+      });
+    },
+  });
+}
+
+/* ============================================================
+   HERO REVEAL
+   — SplitText per-character stagger cascade on load
+   — i-line dividers scale in from left
+   — top/bottom rows fade up
+   ============================================================ */
+function revealHero() {
+  const heroName = document.getElementById('hero-name');
+  if (!heroName) return;
+
+  const tl = gsap.timeline();
+
+  if (typeof SplitText !== 'undefined') {
+    const split = new SplitText(heroName, { type: 'chars', charsClass: 'hero-char' });
+    tl.from(split.chars, {
+      yPercent: 120,
+      stagger: 0.032,
+      duration: 0.85,
+      ease: EASE,
+    });
+  } else {
+    tl.from('.hero-name-line', {
+      yPercent: 120,
+      stagger: 0.14,
+      duration: 0.85,
+      ease: EASE,
     });
   }
-  
-  return shapes;
+
+  /* Divider lines scale in from left */
+  tl.from(
+    '.section-hero .i-line',
+    { scaleX: 0, stagger: 0.1, duration: 0.65, ease: EASE_SOFT, transformOrigin: 'left center' },
+    '-=0.6'
+  );
+
+  /* Meta rows + subtitle row fade up */
+  tl.from(
+    '.hero-top-row, .hero-bottom-row',
+    { opacity: 0, y: 18, stagger: 0.1, duration: 0.55, ease: EASE_SOFT },
+    '-=0.5'
+  );
+
+  /* Scroll hint fades in last */
+  tl.from(
+    '.hero-scroll-hint',
+    { opacity: 0, y: 10, duration: 0.5, ease: EASE_SOFT },
+    '-=0.25'
+  );
 }
 
-// Enhanced drag functionality with touch support
-function makeDraggable(element) {
-  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  let isDragging = false;
-  
-  // Mouse events
-  element.addEventListener('mousedown', dragMouseDown);
-  
-  // Touch events
-  element.addEventListener('touchstart', dragTouchStart, { passive: false });
-  
-  function dragMouseDown(e) {
-    e.preventDefault();
-    startDrag(e.clientX, e.clientY);
-    document.addEventListener('mousemove', elementDrag);
-    document.addEventListener('mouseup', closeDragElement);
-  }
-  
-  function dragTouchStart(e) {
-    if (e.touches.length !== 1) return;
-    e.preventDefault();
-    const touch = e.touches[0];
-    startDrag(touch.clientX, touch.clientY);
-    document.addEventListener('touchmove', elementTouchMove, { passive: false });
-    document.addEventListener('touchend', closeDragElement);
-  }
-  
-  function startDrag(clientX, clientY) {
-    isDragging = true;
-    element.classList.add('dragging-active');
-    pos3 = clientX;
-    pos4 = clientY;
-    document.body.style.userSelect = 'none';
-    document.body.style.touchAction = 'none';
-  }
-  
-  function elementDrag(e) {
-    if (!isDragging) return;
-    e.preventDefault();
-    updatePosition(e.clientX, e.clientY);
-  }
-  
-  function elementTouchMove(e) {
-    if (!isDragging || e.touches.length !== 1) return;
-    e.preventDefault();
-    const touch = e.touches[0];
-    updatePosition(touch.clientX, touch.clientY);
-  }
-  
-  function updatePosition(clientX, clientY) {
-    pos1 = pos3 - clientX;
-    pos2 = pos4 - clientY;
-    pos3 = clientX;
-    pos4 = clientY;
-    
-    const newTop = element.offsetTop - pos2;
-    const newLeft = element.offsetLeft - pos1;
-    
-    // Apply smooth transform
-    element.style.transform = `translate(${newLeft - element.offsetLeft}px, ${newTop - element.offsetTop}px)`;
-    
-    // Update actual position
-    element.style.top = newTop + "px";
-    element.style.left = newLeft + "px";
-  }
-  
-  function closeDragElement() {
-    isDragging = false;
-    element.classList.remove('dragging-active');
-    element.style.transform = '';
-    
-    // Clean up event listeners
-    document.removeEventListener('mousemove', elementDrag);
-    document.removeEventListener('touchmove', elementTouchMove);
-    document.removeEventListener('mouseup', closeDragElement);
-    document.removeEventListener('touchend', closeDragElement);
-    
-    // Restore body styles
-    document.body.style.userSelect = '';
-    document.body.style.touchAction = '';
-    
-    // Add subtle bounce effect
-    animateShapeBounce(element);
-  }
+/* ============================================================
+   HERO SCROLL PARALLAX  (sticky pin, scrub-linked)
+   — name scales down + fades as user scrolls
+   — video fades in + scales slightly
+   — rows and scroll hint disappear
+   ============================================================ */
+function initHeroScroll() {
+  if (!document.querySelector('.section-hero')) return;
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.section-hero',
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 1.2,
+    },
+  });
+
+  tl.to('.hero-name',    { scale: 0.86, opacity: 0, y: -55, ease: 'none' }, 0);
+  tl.to('.hero-video',   { opacity: 0.5, scale: 1.07, ease: 'none' }, 0);
+  tl.to('.hero-top-row, .hero-bottom-row, .hero-scroll-hint',
+                         { opacity: 0, ease: 'none' }, 0);
+  tl.to('.section-hero .i-line', { opacity: 0, ease: 'none' }, 0);
 }
 
-// Enhanced shape animations for modern UI
-function animateShapeClick(shape) {
-  gsap.to(shape, {
-    scale: 1.2,
-    duration: 0.15,
-    yoyo: true,
-    repeat: 1,
-    ease: "power2.inOut"
+/* ============================================================
+   INTRO SECTION — mask reveals on scroll
+   — each word/phrase slides up from behind its .t-line-mask clip
+   ============================================================ */
+function initIntroReveal() {
+  document.querySelectorAll('.intro-word').forEach((word, i) => {
+    gsap.fromTo(word,
+      { yPercent: 110 },
+      {
+        yPercent: 0,
+        duration: 0.9,
+        ease: EASE,
+        delay: i * 0.03,
+        scrollTrigger: {
+          trigger: word.closest('.t-line-mask'),
+          start: 'top 88%',
+          toggleActions: 'play none none none',
+        },
+      }
+    );
   });
 }
 
-function animateShapeBounce(shape) {
-  gsap.to(shape, {
-    y: "+=5",
-    duration: 0.1,
-    yoyo: true,
-    repeat: 1,
-    ease: "elastic.out(1, 0.5)"
+/* ============================================================
+   ABOUT SECTION — heading mask reveals + body/image fade
+   ============================================================ */
+function initAboutReveal() {
+  document.querySelectorAll('.about-heading').forEach((h, i) => {
+    gsap.fromTo(h,
+      { yPercent: 110 },
+      {
+        yPercent: 0,
+        duration: 0.9,
+        ease: EASE,
+        delay: i * 0.07,
+        scrollTrigger: {
+          trigger: h.closest('.t-line-mask') || h,
+          start: 'top 88%',
+          toggleActions: 'play none none none',
+        },
+      }
+    );
+  });
+
+  gsap.from('.about-body, .section-about .pill-btn', {
+    opacity: 0, y: 24,
+    stagger: 0.12,
+    duration: 0.7,
+    ease: EASE_SOFT,
+    scrollTrigger: {
+      trigger: '.about-body',
+      start: 'top 88%',
+      toggleActions: 'play none none none',
+    },
+  });
+
+  gsap.from('.about-img-wrap', {
+    opacity: 0, scale: 0.95,
+    duration: 0.9,
+    ease: EASE_SOFT,
+    scrollTrigger: {
+      trigger: '.about-img-wrap',
+      start: 'top 88%',
+      toggleActions: 'play none none none',
+    },
   });
 }
 
-// Modern Scroll Animations with mobile optimization
-function initScrollAnimations() {
-  if (typeof ScrollTrigger === 'undefined') {
-    console.log('ScrollTrigger not available, skipping scroll animations');
-    return;
+/* ============================================================
+   WORKS — clip-path wipe reveal (scroll triggered)
+   — card wipes in from top via clip-path inset
+   — card-inner fades in with slight delay
+   ============================================================ */
+function initWorksReveal() {
+  document.querySelectorAll('.t-card').forEach((card, i) => {
+    const inner = card.querySelector('.t-card-inner');
+
+    /* Start fully clipped (invisible), wipe down to reveal */
+    gsap.set(card, { clipPath: 'inset(0 0 100% 0)' });
+    if (inner) gsap.set(inner, { opacity: 0 });
+
+    const st = {
+      trigger: card,
+      start: 'top 90%',
+      toggleActions: 'play none none none',
+    };
+
+    gsap.to(card, {
+      clipPath: 'inset(0 0 0% 0)',
+      duration: 0.9,
+      ease: EASE,
+      delay: i * 0.06,
+      scrollTrigger: st,
+    });
+
+    if (inner) {
+      gsap.to(inner, {
+        opacity: 1,
+        duration: 0.6,
+        ease: EASE_SOFT,
+        delay: i * 0.06 + 0.3,
+        scrollTrigger: st,
+      });
+    }
+  });
+
+  /* CTA button fades up */
+  gsap.from('.works-cta-row .pill-btn', {
+    opacity: 0, y: 18,
+    duration: 0.6,
+    ease: EASE_SOFT,
+    scrollTrigger: {
+      trigger: '.works-cta-row',
+      start: 'top 90%',
+      toggleActions: 'play none none none',
+    },
+  });
+}
+
+/* ============================================================
+   BREAK SECTION — clip-path wipe reveal per item
+   ============================================================ */
+function initBreakReveal() {
+  document.querySelectorAll('.break-item').forEach((item, i) => {
+    const inner = item.querySelector('.break-item-inner');
+
+    gsap.set(item, { clipPath: 'inset(0 0 100% 0)' });
+    if (inner) gsap.set(inner, { opacity: 0 });
+
+    const st = {
+      trigger: item,
+      start: 'top 90%',
+      toggleActions: 'play none none none',
+    };
+
+    gsap.to(item, {
+      clipPath: 'inset(0 0 0% 0)',
+      duration: 0.9,
+      ease: EASE,
+      delay: i * 0.07,
+      scrollTrigger: st,
+    });
+
+    if (inner) {
+      gsap.to(inner, {
+        opacity: 1,
+        duration: 0.6,
+        ease: EASE_SOFT,
+        delay: i * 0.07 + 0.25,
+        scrollTrigger: st,
+      });
+    }
+  });
+}
+
+/* ============================================================
+   SECTION HEADER LINES — scale in from left on scroll
+   ============================================================ */
+function initSectionHeaders() {
+  document.querySelectorAll('.section-header-row').forEach((row) => {
+    const line  = row.querySelector('.i-line--flex');
+    const label = row.querySelector('.section-label');
+
+    if (line) {
+      gsap.from(line, {
+        scaleX: 0,
+        duration: 0.9,
+        ease: EASE_SOFT,
+        transformOrigin: 'left center',
+        scrollTrigger: { trigger: row, start: 'top 90%', toggleActions: 'play none none none' },
+      });
+    }
+    if (label) {
+      gsap.from(label, {
+        opacity: 0, x: -14,
+        duration: 0.65,
+        ease: EASE_SOFT,
+        scrollTrigger: { trigger: row, start: 'top 90%', toggleActions: 'play none none none' },
+      });
+    }
+  });
+}
+
+/* ============================================================
+   3-LAYER CURSOR HOVER-REVEAL (work cards)
+   — Layer 1 (outer .cursor-reveal):  follows cursor, slow drift
+   — Layer 2 (.hover-reveal__inner):  rotation from mouse velocity
+   — Layer 3 (.hover-reveal__img):    counter-parallax inside inner
+   ============================================================ */
+function initHoverReveal() {
+  const cards  = document.querySelectorAll('.t-card[data-img]');
+  const reveal = document.getElementById('cursor-reveal');
+  const inner  = document.querySelector('.hover-reveal__inner');
+  const img    = document.getElementById('cursor-reveal-img');
+
+  if (!cards.length || !reveal || !img) return;
+
+  let mouseX = 0, mouseY = 0;
+  let prevX  = 0, prevY  = 0;
+  let rafId  = null;
+  let active = false;
+
+  function trackMouse(e) {
+    const dx = e.clientX - prevX;
+    const dy = e.clientY - prevY;
+    prevX = mouseX;
+    prevY = mouseY;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    if (!rafId) {
+      rafId = requestAnimationFrame(() => {
+        /* Layer 1: outer follows cursor with smooth lag */
+        gsap.to(reveal, {
+          left: mouseX, top: mouseY,
+          duration: 0.55, ease: EASE_SOFT,
+          overwrite: 'auto',
+        });
+
+        if (active) {
+          /* Layer 2: inner rotates subtly based on horizontal velocity */
+          if (inner) {
+            gsap.to(inner, {
+              rotation: dx * 0.06,
+              duration: 0.8, ease: EASE_SOFT,
+              overwrite: 'auto',
+            });
+          }
+          /* Layer 3: image parallaxes in opposite direction */
+          gsap.to(img, {
+            x: dx * -0.12,
+            y: dy * -0.12,
+            duration: 0.9, ease: EASE_SOFT,
+            overwrite: 'auto',
+          });
+        }
+
+        rafId = null;
+      });
+    }
   }
-  
-  gsap.registerPlugin(ScrollTrigger);
-  
-  // Animate project cards on scroll
-  gsap.utils.toArray('.project-card').forEach((card, i) => {
-    gsap.fromTo(card, {
-      opacity: 0,
-      y: 30
-    }, {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: card,
-        start: "top 90%",
-        end: "bottom 20%",
-        toggleActions: "play none none none"
-      },
-      delay: i * 0.1
+
+  cards.forEach((card) => {
+    card.addEventListener('mouseenter', () => {
+      const src = card.getAttribute('data-img');
+      if (src) img.src = src;
+      active = true;
+      reveal.classList.add('is-visible');
+
+      /* Inner: slide up into position on enter */
+      if (inner) {
+        gsap.fromTo(inner,
+          { yPercent: 10, scale: 0.94 },
+          { yPercent: 0, scale: 1, duration: 0.65, ease: EASE }
+        );
+      }
+    });
+
+    card.addEventListener('mouseleave', () => {
+      active = false;
+      reveal.classList.remove('is-visible');
+      if (inner) gsap.to(inner, { rotation: 0, yPercent: 0, duration: 0.55, ease: EASE_SOFT });
+      gsap.to(img, { x: 0, y: 0, duration: 0.55, ease: EASE_SOFT });
     });
   });
-  
-  // Animate contact methods
-  gsap.utils.toArray('.contact-method').forEach((method, i) => {
-    gsap.fromTo(method, {
-      opacity: 0,
-      scale: 0.8
-    }, {
-      opacity: 1,
-      scale: 1,
-      duration: 0.5,
-      ease: "back.out(1.7)",
-      scrollTrigger: {
-        trigger: method,
-        start: "top 95%",
-        toggleActions: "play none none none"
+
+  document.addEventListener('mousemove', trackMouse, { passive: true });
+}
+
+/* ============================================================
+   MAGNETIC BUTTONS
+   — .magnet elements pull toward cursor, snap back elastically
+   ============================================================ */
+function initMagnetic() {
+  document.querySelectorAll('.magnet').forEach((btn) => {
+    btn.addEventListener('mousemove', (e) => {
+      const r  = btn.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width  / 2)) * 0.34;
+      const dy = (e.clientY - (r.top  + r.height / 2)) * 0.34;
+      gsap.to(btn, { x: dx, y: dy, duration: 0.35, ease: EASE_SOFT, overwrite: 'auto' });
+    });
+    btn.addEventListener('mouseleave', () => {
+      gsap.to(btn, { x: 0, y: 0, duration: 0.65, ease: 'elastic.out(1, 0.4)' });
+    });
+  });
+}
+
+/* ============================================================
+   BACK TO TOP
+   ============================================================ */
+function initBackToTop() {
+  document.querySelectorAll('.footer-back-top').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (window.__lenis) {
+        window.__lenis.scrollTo(0, { duration: 1.8 });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
   });
-  
-  // Animate social media cards
-  gsap.utils.toArray('.social-media-card').forEach((card, i) => {
-    gsap.fromTo(card, {
-      opacity: 0,
-      y: 20
-    }, {
-      opacity: 1,
-      y: 0,
-      duration: 0.5,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: card,
-        start: "top 95%",
-        toggleActions: "play none none none"
-      },
-      delay: i * 0.1
-    });
+}
+
+/* ============================================================
+   PROJECT CARDS (projects.html) — clip-path wipe per card
+   ============================================================ */
+function initProjectReveal() {
+  document.querySelectorAll('.project-card').forEach((card, i) => {
+    gsap.fromTo(card,
+      { clipPath: 'inset(0 0 100% 0)', opacity: 1 },
+      {
+        clipPath: 'inset(0 0 0% 0)',
+        duration: 0.9,
+        ease: EASE,
+        delay: (i % 2) * 0.1,
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 88%',
+          toggleActions: 'play none none none',
+        },
+      }
+    );
   });
 }
 
-// Enhanced Text Animations
-function initTextAnimations() {
-  const textElements = document.querySelectorAll('.text-reveal-element');
-  
-  textElements.forEach((element, index) => {
-    gsap.fromTo(element, {
-      y: 50,
-      opacity: 0
-    }, {
-      y: 0,
-      opacity: 1,
-      duration: 0.6,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: element,
-        start: "top 95%",
-        toggleActions: "play none none none"
-      },
-      delay: index * 0.1
-    });
-  });
-}
-
-// Enhanced Cursor Effects (desktop only)
-function initCursorEffects() {
-  if (window.matchMedia("(pointer: fine)").matches && window.innerWidth > 768) {
-    const cursor = document.createElement('div');
-    cursor.className = 'custom-cursor';
-    document.body.appendChild(cursor);
-    
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-    });
-    
-    const interactiveElements = document.querySelectorAll('a, button, .draggable-shape, .nav-link');
-    
-    interactiveElements.forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.style.transform = 'scale(1.5)';
-      });
-      
-      el.addEventListener('mouseleave', () => {
-        cursor.style.transform = 'scale(1)';
-      });
-    });
-  }
-}
-
-// FIXED Form Interactions - Now works with Formspree
-function initFormInteractions() {
+/* ============================================================
+   CONTACT FORM
+   ============================================================ */
+function initForm() {
   const form = document.querySelector('.contact-form');
   if (!form) return;
-  
-  const inputs = form.querySelectorAll('input, textarea');
-  const statusElement = document.getElementById('form-status') || createStatusElement(form);
-  
-  // Remove any existing submit event listeners to prevent conflicts
-  const newForm = form.cloneNode(true);
-  form.parentNode.replaceChild(newForm, form);
-  
-  // Add new submit listener to the fresh form
-  newForm.addEventListener('submit', handleFormSubmit);
-  
-  function handleFormSubmit(e) {
-    e.preventDefault();
-    
-    const submitBtn = newForm.querySelector('.submit-btn');
-    const originalText = submitBtn.textContent;
-    
-    // Show loading state
-    submitBtn.textContent = 'Sending...';
-    submitBtn.disabled = true;
-    statusElement.style.display = 'none';
-    
-    // Get form data
-    const formData = new FormData(newForm);
-    
-    // Send to Formspree
-    fetch(newForm.action, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'Accept': 'application/json'
-      }
-    })
-    .then(response => {
-      if (response.ok) {
-        // Success
-        showStatus('Message sent successfully!', 'success');
-        newForm.reset();
-        submitBtn.textContent = 'Message Sent!';
-        submitBtn.style.background = 'var(--color-accent)';
-        
-        // Reset button after delay
-        setTimeout(() => {
-          submitBtn.textContent = originalText;
-          submitBtn.disabled = false;
-          submitBtn.style.background = '';
-        }, 3000);
-      } else {
-        throw new Error('Form submission failed');
-      }
-    })
-    .catch(error => {
-      // Error
-      showStatus('Sorry, there was an error sending your message. Please try again.', 'error');
-      submitBtn.textContent = 'Error - Try Again';
-      submitBtn.style.background = '#ef4444';
-      
-      setTimeout(() => {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-        submitBtn.style.background = '';
-      }, 3000);
-    });
-  }
-  
-  function showStatus(message, type) {
-    statusElement.textContent = message;
-    statusElement.style.display = 'block';
-    statusElement.style.background = type === 'success' ? 'rgba(76, 175, 80, 0.1)' : 'rgba(244, 67, 54, 0.1)';
-    statusElement.style.border = type === 'success' ? '1px solid #4CAF50' : '1px solid #f44336';
-    statusElement.style.color = type === 'success' ? '#4CAF50' : '#f44336';
-  }
-  
-  function createStatusElement(form) {
-    const statusEl = document.createElement('div');
+
+  let statusEl = document.getElementById('form-status');
+  if (!statusEl) {
+    statusEl = document.createElement('div');
     statusEl.id = 'form-status';
     statusEl.style.display = 'none';
     statusEl.style.marginTop = '1rem';
-    statusEl.style.padding = '0.5rem';
-    statusEl.style.borderRadius = '4px';
     form.appendChild(statusEl);
-    return statusEl;
-  }
-  
-  // Keep the existing input interactions
-  inputs.forEach(input => {
-    input.addEventListener('focus', () => {
-      input.parentElement.classList.add('focused');
-    });
-    
-    input.addEventListener('blur', () => {
-      input.parentElement.classList.remove('focused');
-    });
-    
-    input.addEventListener('input', () => {
-      validateField(input);
-    });
-  });
-}
-
-function validateField(field) {
-  const value = field.value.trim();
-  
-  if (!value) return;
-  
-  let isValid = true;
-  
-  switch(field.type) {
-    case 'email':
-      isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-      break;
-    case 'text':
-      isValid = value.length >= 2;
-      break;
-    case 'textarea':
-      isValid = value.length >= 10;
-      break;
-  }
-  
-  if (isValid) {
-    field.style.borderColor = 'var(--color-accent)';
-  } else {
-    field.style.borderColor = '#ef4444';
-  }
-}
-
-// Enhanced Terminal Preloader with Mobile Support
-function animateTerminalPreloader() {
-  const tl = gsap.timeline({ onComplete: revealContent });
-  const lines = Array.from(document.querySelectorAll(".terminal-line"));
-  
-  // Enhanced line animations with mobile optimization
-  lines.forEach((line, i) => {
-    tl.to(line, { 
-      opacity: 1, 
-      duration: 0.2,
-      ease: "power2.out"
-    }, i * 0.1);
-    
-    const highlights = line.querySelectorAll('.highlight');
-    if (highlights.length > 0) {
-      tl.to(highlights, {
-        textShadow: '0 0 8px currentColor',
-        duration: 0.4,
-        ease: "power2.inOut"
-      }, i * 0.1);
-    }
-  });
-  
-  tl.to({}, { duration: 0.3 });
-  
-  tl.to(lines, { 
-    opacity: 0, 
-    duration: 0.2, 
-    stagger: 0.03,
-    ease: "power2.in" 
-  });
-  
-  tl.eventCallback("onUpdate", function() {
-    const progress = Math.min(99, this.progress() * 100);
-    updateProgress(progress);
-  });
-  
-  tl.call(() => updateProgress(100));
-  
-  return tl.play();
-}
-
-function updateProgress(percent) {
-  const progressBar = document.getElementById("progress-bar");
-  if (progressBar) {
-    progressBar.style.width = percent + "%";
-    
-    if (percent > 90) {
-      progressBar.style.boxShadow = '0 0 8px var(--color-accent)';
-    }
-  }
-}
-
-// Enhanced Content Reveal with Mobile Optimization
-function revealContent() {
-  const tl = gsap.timeline();
-  const preloaderEl = document.getElementById("preloader");
-  const contentEl = document.getElementById("content");
-  const slideEase = "cubic-bezier(0.65,0.05,0.36,1)";
-
-  if (contentEl) {
-    contentEl.style.opacity = "1";
-    contentEl.style.visibility = "visible";
   }
 
-  if (preloaderEl) {
-    tl.to(preloaderEl, {
-      clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-      duration: 0.6,
-      ease: slideEase,
-      onComplete: () => {
-        if (preloaderEl) {
-          preloaderEl.style.display = "none";
-        }
-        initScrollAnimations();
-        initTextAnimations();
-      }
-    });
-  }
-  
-  const heroTitleLines = document.querySelectorAll(".hero-title .title-line span");
-  if (heroTitleLines.length > 0) {
-    tl.to(heroTitleLines, { 
-      y: "0%", 
-      duration: 0.6, 
-      stagger: 0.08, 
-      ease: "back.out(1.7)" 
-    }, "-=0.2");
-  }
-  
-  const shapes = document.querySelectorAll('.draggable-shape');
-  if (shapes.length > 0) {
-    tl.fromTo(shapes, {
-      scale: 0,
-      rotation: 180
-    }, {
-      scale: 1,
-      rotation: 0,
-      duration: 0.8,
-      stagger: 0.01,
-      ease: "elastic.out(1, 0.5)"
-    }, "-=0.3");
-  }
-}
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn  = form.querySelector('.submit-btn');
+    const orig = btn.textContent;
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    statusEl.style.display = 'none';
 
-// Enhanced Menu System - MOBILE OPTIMIZED
-function initializeMenu() {
-  const menuBtn = document.getElementById("menu-btn");
-  const closeBtn = document.getElementById("close-btn");
-  const overlay = document.getElementById("overlay");
-  const featuredImage = document.getElementById("featured-image");
-  const navLinks = document.querySelectorAll(".nav-link");
-  let isAnimating = false;
-
-  function openMenu() {
-    if (isAnimating) return;
-    isAnimating = true;
-    
-    const tl = gsap.timeline({ 
-      onComplete: () => {
-        isAnimating = false;
-        if (overlay) overlay.style.pointerEvents = "all";
-      }
-    });
-    
-    if (!overlay) return;
-    
-    // Hide featured image on mobile
-    if (window.innerWidth < 768 && featuredImage) {
-      featuredImage.style.display = "none";
-    }
-    
-    tl.to(overlay, {
-      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-      duration: 0.4, 
-      ease: "power2.inOut"
-    });
-    
-    if (featuredImage && window.innerWidth >= 768) {
-      tl.to(featuredImage, {
-        clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-        duration: 0.4, 
-        ease: "power2.out"
-      }, "<");
-    }
-    
-    if (navLinks.length > 0) {
-      tl.to(navLinks, { 
-        y: "0%", 
-        duration: 0.4, 
-        stagger: 0.03, 
-        ease: "back.out(1.7)" 
-      }, "<");
-    }
-  }
-
-  function closeMenu() {
-    if (isAnimating) return;
-    isAnimating = true;
-    
-    const tl = gsap.timeline({ 
-      onComplete: () => {
-        isAnimating = false;
-        if (overlay) {
-          overlay.style.pointerEvents = "none";
-        }
-        // Restore featured image display
-        if (featuredImage) {
-          featuredImage.style.display = "block";
-        }
-      }
-    });
-    
-    if (navLinks.length > 0) {
-      tl.to(navLinks, { 
-        y: "-100%", 
-        duration: 0.3, 
-        stagger: 0.03, 
-        ease: "power2.in" 
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
       });
-    }
-    
-    if (featuredImage && window.innerWidth >= 768) {
-      tl.to(featuredImage, {
-        clipPath: "polygon(100% 0, 100% 0, 100% 100%, 100% 100%)",
-        duration: 0.3, 
-        ease: "power2.in"
-      }, "<");
-    }
-    
-    if (overlay) {
-      tl.to(overlay, {
-        clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-        duration: 0.4, 
-        ease: "power2.inOut"
-      }, "<");
-    }
-  }
-
-  // Add event listeners
-  if (menuBtn) {
-    menuBtn.addEventListener("click", openMenu);
-    menuBtn.addEventListener("touchstart", openMenu, { passive: true });
-  }
-  
-  if (closeBtn) {
-    closeBtn.addEventListener("click", closeMenu);
-    closeBtn.addEventListener("touchstart", closeMenu, { passive: true });
-  }
-  
-  // Handle nav link clicks
-  if (navLinks) {
-    navLinks.forEach((link) => {
-      link.addEventListener("click", (e) => {
-        e.preventDefault();
-        const target = link.getAttribute('href');
-        
-        closeMenu();
-        
-        setTimeout(() => {
-          if (target && target.startsWith('#')) {
-            const section = document.querySelector(target);
-            if (section) {
-              section.scrollIntoView({ behavior: 'smooth' });
-            }
-          } else if (target) {
-            window.location.href = target;
-          }
-        }, 400);
-      });
-      
-      // Add touch support
-      link.addEventListener("touchstart", (e) => {
-        e.preventDefault();
-        link.click();
-      }, { passive: false });
-    });
-  }
-
-  // Close menu when clicking on overlay background
-  if (overlay) {
-    overlay.addEventListener("click", function(e) {
-      if (e.target === overlay) {
-        closeMenu();
-      }
-    });
-    
-    // Touch support for overlay
-    overlay.addEventListener("touchstart", function(e) {
-      if (e.target === overlay) {
-        closeMenu();
-      }
-    }, { passive: true });
-  }
-  
-  // Keyboard navigation support
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && overlay && overlay.style.pointerEvents === "all") {
-      closeMenu();
+      if (res.ok) {
+        statusEl.textContent = 'Message sent — talk soon.';
+        statusEl.style.color = 'var(--black)';
+        statusEl.style.display = 'block';
+        form.reset();
+        btn.textContent = 'Sent!';
+        setTimeout(() => { btn.textContent = orig; btn.disabled = false; statusEl.style.display = 'none'; }, 3500);
+      } else { throw new Error(); }
+    } catch {
+      statusEl.textContent = 'Something went wrong. Email me directly.';
+      statusEl.style.color = '#c0392b';
+      statusEl.style.display = 'block';
+      btn.textContent = 'Try again';
+      btn.disabled = false;
     }
   });
 }
 
-// Add enhanced CSS styles dynamically
-function addEnhancedStyles() {
-  const styles = `
-    /* Mobile-first responsive improvements */
-    @media (max-width: 767px) {
-      .featured-image {
-        display: none;
-      }
-      
-      .nav-menu {
-        left: 1rem;
-        width: calc(100% - 2rem);
-      }
-      
-      .overlay-header, 
-      .overlay-footer {
-        padding: 1rem;
-      }
-    }
-    
-    /* Prevent zoom on input focus on mobile */
-    @media (max-width: 768px) {
-      input, textarea, select {
-        font-size: 16px !important;
-      }
-    }
-    
-    /* Improved touch targets for mobile */
-    @media (max-width: 768px) {
-      .nav-link {
-        padding: 0.5rem 0;
-      }
-      
-      .project-link,
-      .tech-tag,
-      .social-links a {
-        min-height: 44px;
-        min-width: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      
-      .menu-toggle p,
-      .close-toggle p {
-        padding: 12px;
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-      }
-    }
-    
-    /* Performance optimizations */
-    .draggable-shape {
-      will-change: transform;
-    }
-    
-    /* Smooth scrolling for all devices */
-    html {
-      scroll-behavior: smooth;
-    }
-    
-    @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-    }
-    
-    /* Form status styles */
-    #form-status {
-      transition: all 0.3s ease;
-    }
-  `;
-  
-  const styleSheet = document.createElement('style');
-  styleSheet.textContent = styles;
-  document.head.appendChild(styleSheet);
+/* ============================================================
+   ROW WRAPPER REVEAL — generic scroll-in for page elements
+   (transform + opacity, mirrors .row-wrapper .row-inner pattern)
+   ============================================================ */
+function initRowReveals() {
+  /* Page hero content on inner pages */
+  const pageHero = document.querySelector('.page-hero');
+  if (pageHero) {
+    gsap.from(pageHero.children, {
+      opacity: 0, y: 32,
+      stagger: 0.12,
+      duration: 0.75,
+      ease: EASE_SOFT,
+      delay: 0.2,
+    });
+  }
+
+  /* Contact heading + subtext */
+  const contactLeft = document.querySelector('.contact-inner > div:first-child');
+  if (contactLeft) {
+    gsap.from(contactLeft.children, {
+      opacity: 0, y: 28,
+      stagger: 0.1,
+      duration: 0.7,
+      ease: EASE_SOFT,
+      delay: 0.25,
+    });
+  }
 }
 
-// Handle viewport changes
-function handleResize() {
-  // Reinitialize animations on resize if needed
-  if (typeof ScrollTrigger !== 'undefined') {
+/* ============================================================
+   MAIN INIT
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  const isMobile = window.innerWidth < 768;
+
+  initClock();
+  initBackToTop();
+  initForm();
+
+  const lenis = initLenis();
+  if (lenis) window.__lenis = lenis;
+
+  const runAnimations = () => {
+    try { revealHero(); } catch (_) { /* SplitText CDN may block */ }
+    initHeroScroll();
+    initIntroReveal();
+    initAboutReveal();
+    initWorksReveal();
+    initBreakReveal();
+    initHoverReveal();
+    initMagnetic();
+    initProjectReveal();
+    initSectionHeaders();
+    initRowReveals();
     ScrollTrigger.refresh();
-  }
-}
+  };
 
-// Error handling for better UX
-window.addEventListener('error', (e) => {
-  console.error('Script error:', e.error);
-  
-  const contentEl = document.getElementById("content");
-  const preloaderEl = document.getElementById("preloader");
-  
-  if (contentEl) {
-    contentEl.style.opacity = "1";
-    contentEl.style.visibility = "visible";
+  if (isMobile) {
+    runAnimations();
+  } else {
+    initPreloader(runAnimations);
   }
-  
-  if (preloaderEl) {
-    preloaderEl.style.display = "none";
-  }
+
+  window.addEventListener('resize', () => ScrollTrigger.refresh());
+  window.addEventListener('orientationchange', () => {
+    setTimeout(() => ScrollTrigger.refresh(), 200);
+  });
 });
 
-// Main initialization with mobile-first approach
-document.addEventListener("DOMContentLoaded", function () {
-  console.log("DOM loaded, initializing with mobile optimizations...");
-  
-  try {
-    // Apply mobile fixes first
-    applyMobileFixes();
-
-    // Initialize core functionality
-    initializeMenu();
-
-    // Check if we're on a page with preloader
-    const preloaderEl = document.getElementById("preloader");
-
-    // Mobile: skip preloader and animations
-    if (window.innerWidth < 768) {
-      if (preloaderEl) {
-        preloaderEl.style.display = "none";
-      }
-
-      const contentEl = document.getElementById("content");
-      if (contentEl) {
-        contentEl.style.opacity = "1";
-        contentEl.style.visibility = "visible";
-      }
-
-      createDraggableShapes();
-      initScrollAnimations();
-      initFormInteractions();
-      addEnhancedStyles();
-    } else {
-      // Desktop: use animations
-      gsap.set(".hero-title .title-line span", { y: "100%" });
-      gsap.set(".terminal-line", { opacity: 0 });
-      gsap.set(".text-reveal-element", { y: 50, opacity: 0 });
-
-      if (preloaderEl) {
-        console.log("Preloader found, starting animation sequence");
-        createDraggableShapes();
-        animateTerminalPreloader();
-      } else {
-        console.log("No preloader found, revealing content immediately");
-        createDraggableShapes();
-
-        const contentEl = document.getElementById("content");
-        if (contentEl) {
-          contentEl.style.opacity = "1";
-          contentEl.style.visibility = "visible";
-        }
-
-        initScrollAnimations();
-        initTextAnimations();
-      }
-
-      setTimeout(() => {
-        initCursorEffects();
-        initFormInteractions();
-        addEnhancedStyles();
-      }, 100);
-    }
-
-    // Add resize handler
-    window.addEventListener('resize', handleResize);
-
-  } catch (error) {
-    console.error("Initialization error:", error);
-
-    const contentEl = document.getElementById("content");
-    const preloaderEl = document.getElementById("preloader");
-
-    if (contentEl) {
-      contentEl.style.opacity = "1";
-      contentEl.style.visibility = "visible";
-    }
-
-    if (preloaderEl) {
-      preloaderEl.style.display = "none";
-    }
-  }
+/* Safety net — always dismiss preloader if any JS error occurs */
+window.addEventListener('error', () => {
+  const el = document.getElementById('preloader');
+  if (el) el.style.display = 'none';
 });
-
-// Clean up on page unload
-window.addEventListener('beforeunload', () => {
-  if (typeof ScrollTrigger !== 'undefined') {
-    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-  }
-});
-
-// Mobile-specific fixes
-function applyMobileFixes() {
-  if (window.innerWidth < 768) {
-    // Force content visibility on mobile
-    const contentEl = document.getElementById("content");
-    if (contentEl) {
-      contentEl.style.opacity = "1";
-      contentEl.style.visibility = "visible";
-      contentEl.classList.add('mobile-fix');
-    }
-
-    // Hide preloader immediately on mobile
-    const preloaderEl = document.getElementById("preloader");
-    if (preloaderEl) {
-      preloaderEl.style.display = "none";
-    }
-
-    // Ensure all main sections are visible
-    const mainSections = document.querySelectorAll('main, .about-section, .projects-main, .contact-main');
-    mainSections.forEach(section => {
-      section.style.opacity = "1";
-      section.style.visibility = "visible";
-    });
-  }
-}

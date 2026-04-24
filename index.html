@@ -2,227 +2,328 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zikora Okelo Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Observer.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/SplitText.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Okelo Zikora — Full-Stack Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- Preloader -->
-    <div class="preloader" id="preloader">
-        <div class="terminal-preloader">
-            <div class="border-top">
-                <span>Dimensional Gateway</span>
-                <span>Traversal Initiated</span>
-            </div>
+  <!-- ─── PRELOADER ───────────────────────────────────────── -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-bar" id="preloader-bar"></div>
+    <div class="preloader-counter" id="preloader-counter">0</div>
+  </div>
 
-            <div class="terminal-container">
-                <div class="terminal-line" style="top: 0px;">
-                    <span class="faded">Dimensional Coordinates: Alpha/Omega/Prime</span>
-                    <span class="highlight">Coordinates Locked</span>
-                </div>
-                <div class="terminal-line" style="top: 30px;">
-                    <span class="faded">Initiate Quantum Calibration</span>
-                    <span class="highlight">Singularity Detected</span>
-                </div>
-                <div class="terminal-line" style="top: 60px;">
-                    <span class="highlight">Beginning Tesseract Unfolding</span>
-                </div>
-                <div class="terminal-line" style="top: 90px;">
-                    <span class="highlight">Hyperdimensional Matrices Aligned</span>
-                </div>
-                <div class="progress-line">
-                    <span class="progress-label">Traversing</span>
-                    <div class="progress-container">
-                        <div class="progress-bar" id="progress-bar"></div>
-                    </div>
-                    <span class="highlight" style="margin-left: 10px;">Dimensional Shift</span>
-                </div>
-                <div class="terminal-line" style="top: 165px;">
-                    <span class="highlight">Quantum Entanglement Stabilized</span>
-                </div>
-                <div class="terminal-line" style="top: 195px;">
-                    <span class="highlight">Cosmic Strings Vibrating in Harmony</span>
-                </div>
-                <div class="terminal-line" style="top: 225px;">
-                    <span class="highlight">Wormhole Aperture Expanding</span>
-                </div>
-                <div class="terminal-line" style="top: 255px;">
-                    <span class="highlight">Dimensional Gateway Stabilizing</span>
-                </div>
-                <div class="terminal-line" style="top: 285px;">
-                    <span class="highlight">Reality Parameters Reconfigured</span>
-                </div>
-                <div class="terminal-line" style="top: 15px;">
-                    <span class="faded">Quantum Fluctuation Nominal</span>
-                </div>
-                <div class="terminal-line" style="top: 45px;">
-                    <span class="faded">Initiating Spacetime Fold</span>
-                </div>
-                <div class="terminal-line" style="top: 75px;">
-                    <span class="faded">Scanning Parallel Realities</span>
-                </div>
-                <div class="terminal-line" style="top: 105px;">
-                    <span class="faded">Analyzing Dark Matter Density</span>
-                </div>
-                <div class="terminal-line" style="top: 180px;">
-                    <span class="faded">Processing Gravitational Waves</span>
-                </div>
-                <div class="terminal-line" style="top: 210px;">
-                    <span class="faded">Calibrating Temporal Displacement</span>
-                </div>
-                <div class="terminal-line" style="top: 240px;">
-                    <span class="faded">Evaluating Dimensional Resonance</span>
-                </div>
-                <div class="terminal-line" style="top: 270px;">
-                    <span class="faded">Stabilizing Quantum Foam</span>
-                </div>
-            </div>
+  <!-- ─── NAVIGATION ──────────────────────────────────────── -->
+  <header class="site-header" id="site-header">
+    <div class="nav-left">
+      <span class="nav-meta">LAGOS,&thinsp;NG</span>
+      <span class="nav-meta nav-sep">/</span>
+      <span class="nav-meta" id="nav-time">--:-- --</span>
+      <span class="nav-meta nav-sep">/</span>
+      <span class="nav-meta">6.5244°N&thinsp;3.3792°E</span>
+    </div>
+    <div class="nav-right">
+      <a href="index.html" class="nav-link">
+        <span class="nav-link-inner"><span>HOME</span><span>HOME</span></span>
+      </a>
+      <a href="projects.html" class="nav-link">
+        <span class="nav-link-inner"><span>WORKS</span><span>WORKS</span></span>
+      </a>
+      <a href="casestudy.html" class="nav-link">
+        <span class="nav-link-inner"><span>STUDY</span><span>STUDY</span></span>
+      </a>
+      <a href="contact.html" class="nav-link">
+        <span class="nav-link-inner"><span>CONTACT</span><span>CONTACT</span></span>
+      </a>
+    </div>
+  </header>
 
-            <div class="border-bottom">
-                <span>Traversal Sequence Complete</span>
-                <span>Dimensional Gateway Open</span>
-            </div>
+  <!-- ─── SMOOTH SCROLL WRAPPER ───────────────────────────── -->
+  <div id="smooth-wrapper">
+
+    <!-- ─── HERO ──────────────────────────────────────────── -->
+    <section class="section-hero" id="hero">
+      <div class="hero-inner">
+
+        <div class="hero-top-row">
+          <span class="hero-label">WEB3&nbsp;/&nbsp;CYBERSECURITY</span>
+          <span class="hero-label">2026</span>
         </div>
-    </div>
 
-    <!-- Main Content -->
-    <div class="content-container" id="content">
-        <!-- Navigation Header -->
-        <header class="site-header">
-            <nav class="primary-nav">
-                <div class="grid">
-                    <div class="brand">
-                        <div class="text-reveal">
-                            <a href="#">HACK/WITH/ZIK</a>
-                        </div>
-                    </div>
-                    <div class="menu-toggle">
-                        <div class="text-reveal">
-                            <p id="menu-btn">Menu</p>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-            <!-- Overlay Menu -->
-            <div class="overlay" id="overlay">
-                <div class="featured-image" id="featured-image">
-                    <video autoplay muted loop playsinline>
-                        <source src="bgvideo.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-                <div class="overlay-header">
-                    <div class="grid">
-                        <div class="overlay-brand">
-                            <div class="text-reveal">
-                                <a href="#">Over 3 Years Experience</a>
-                            </div>
-                        </div>
-                        <div class="close-toggle">
-                            <div class="text-reveal">
-                                <p id="close-btn">Close</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <nav class="nav-menu">
-                    <div class="nav-menu-inner">
-                        <div class="nav-item">
-                            <div class="text-reveal">
-                                <a href="projects.html" class="nav-link shift-effect">Projects</a>
-                            </div>
-                        </div>
-                        <div class="nav-item">
-                            <div class="text-reveal">
-                                <a href="casestudy.html" class="nav-link shift-effect">Case Study</a>
-                            </div>
-                        </div>
-                        <div class="nav-item">
-                            <div class="text-reveal">
-                                <a href="Okelo Zikora CV.pdf" class="nav-link shift-effect">CV</a>
-                            </div>
-                        </div>
-                        <div class="nav-item">
-                            <div class="text-reveal">
-                                <a href="contact.html" class="nav-link shift-effect">Contact</a>
-                            </div>
-                        </div>
-                        <div class="nav-item">
-                            <div class="text-reveal">
-                                <a href="#about" class="nav-link shift-effect">About Me</a>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-                <footer class="overlay-footer">
-                    <div class="grid">
-                        <div class="copyright">
-                            <div class="text-reveal">
-                                <p>&copy; Zikora Okelo Samuel</p>
-                            </div>
-                        </div>
-                        <div class="social-links">
-                            <div class="text-reveal">
-                                <a href="https://www.snapchat.com/add/ziggy005?share_id=0yUR2HupNZg&locale=en-NG">Snapchat</a>
-                            </div>
-                            <div class="text-reveal">
-                                <a href="https://www.instagram.com/_zikora.__?igsh=NmtidXp3OGE3b2Mw">Instagram</a>
-                            </div>
-                            <div class="text-reveal">
-                                <a href="https://x.com/HACKWITHZIK?t=9xLb6f-1sVy4CgdFp2sOWw&s=09">X</a>
-                            </div>
-                            <div class="text-reveal">
-                                <a href="+2349011172838">Whatsapp</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
-            </div>
-        </header>
+        <div class="i-line"></div>
 
-        <!-- Hero Section with H1 - FIXED STRUCTURE -->
-        <main style="min-height: 3vh; padding: 120px 1rem 1rem;">
-            <section class="hero-section projects-hero">
-                <div class="hero-content">
-                    <h1 class="hero-title">
-                        <span class="title-line"><span>Okelo Zikora Samuel</span></span>
-                        <span class="title-line"><span>HACK/WITH/ZIK</span></span>
-                    </h1>
-                    <br>
-                    <p class="hero-description">
-                        Experienced Programmer, Web3 Enthusiast, and Cyber Security Analyst
-                    </p>
-                </div>
-            </section>
-        </main>
-    </div>
+        <h1 class="hero-name" id="hero-name">
+          <span class="hero-name-line">OKELO</span>
+          <span class="hero-name-line">ZIKORA</span>
+        </h1>
 
-    <!-- About Me Section -->
-    <div class="about-section" id="about" style="padding: 6rem 3rem">
-        <div class="about-content" style="max-width: 800px; margin: 0 auto;">
-            <h2 class="section-title" style="font-size: 2.5rem; margin-bottom: 2rem; color: #556B2F;">
-                <span class="title-line"><span>About Me</span></span>
-            </h2>
-            <div class="about-text" style="font-size: 1.2rem; line-height: 1.6; color: #ccc;">
-                <p>Hey there! I'm a passionate tech enthusiast with a strong focus on software development,
-                    cybersecurity, and Web3 technologies. I love solving problems through clean, efficient code and
-                    exploring how technology connects people and ideas.</p>
-                <p style="margin-top: 1.5rem;">Over time, I've built skills in Python, C++, debugging, database systems,
-                    and blockchain, and I'm constantly learning to stay ahead of the curve. Whether it's building secure
-                    systems, experimenting with digital assets, or improving existing solutions, I'm all about turning
-                    ideas into functional, reliable projects.</p>
-            </div>
+        <div class="i-line"></div>
+
+        <div class="hero-bottom-row">
+          <span class="hero-sub display-font">A FULL-STACK</span>
+          <span class="hero-sub display-font">DEVELOPER</span>
         </div>
-    </div>
 
-    <script src="scripts.js"></script>
+      </div>
+
+      <video class="hero-video" autoplay muted loop playsinline>
+        <source src="bgvideo.mp4" type="video/mp4">
+      </video>
+
+      <span class="hero-scroll-hint"><span class="blink-dot"></span>SCROLL DOWN</span>
+    </section>
+
+    <!-- ─── INTRO ─────────────────────────────────────────── -->
+    <section class="section-intro">
+      <div class="intro-block">
+        <div class="t-line-mask"><div class="intro-word display-font">PURPOSEFUL</div></div>
+        <div class="t-line-mask"><div class="intro-word intro-word--sm serif-text">Code &amp; Architecture /</div></div>
+        <div class="t-line-mask"><div class="intro-word display-font">BUILDING</div></div>
+        <div class="t-line-mask"><div class="intro-word intro-word--sm serif-text">Systems that scale /</div></div>
+        <div class="t-line-mask"><div class="intro-word display-font">BLOCKCHAIN</div></div>
+        <div class="t-line-mask"><div class="intro-word intro-word--sm serif-text">Security with</div></div>
+        <div class="t-line-mask"><div class="intro-word display-font">MEANING</div></div>
+      </div>
+    </section>
+
+    <!-- ─── FEATURED WORKS ────────────────────────────────── -->
+    <section class="section-works" id="works">
+
+      <div class="section-header-row">
+        <span class="section-label">FEATURED WORKS</span>
+        <div class="i-line i-line--flex"></div>
+      </div>
+
+      <div class="list-work">
+
+        <a href="https://www.pekamyfreshminds.com/" target="_blank" rel="noopener"
+           class="t-card" data-img="Images/recruitment bg.jpg">
+          <div class="t-card-inner">
+            <span class="card-num">01</span>
+            <h3 class="card-title display-font">PEKAMY FRESHMINDS</h3>
+            <div class="card-tags">
+              <span class="cr-tag">React</span>
+              <span class="cr-tag">Node.js</span>
+              <span class="cr-tag">Recruitment</span>
+            </div>
+            <span class="cr-tag cr-tag--dark">WEB DEV</span>
+          </div>
+          <div class="i-line"></div>
+        </a>
+
+        <a href="projects.html" class="t-card" data-img="Images/car bg.jpg">
+          <div class="t-card-inner">
+            <span class="card-num">02</span>
+            <h3 class="card-title display-font">EVERYDAY MOTORS</h3>
+            <div class="card-tags">
+              <span class="cr-tag">PHP</span>
+              <span class="cr-tag">MySQL</span>
+              <span class="cr-tag">CRM</span>
+            </div>
+            <span class="cr-tag cr-tag--dark">WEB DEV</span>
+          </div>
+          <div class="i-line"></div>
+        </a>
+
+        <a href="https://github.com/Zikrypt" target="_blank" rel="noopener"
+           class="t-card" data-img="Images/solanabg.jpg">
+          <div class="t-card-inner">
+            <span class="card-num">03</span>
+            <h3 class="card-title display-font">SOLANA COPY BOT</h3>
+            <div class="card-tags">
+              <span class="cr-tag">Python</span>
+              <span class="cr-tag">Web3</span>
+              <span class="cr-tag">DeFi</span>
+            </div>
+            <span class="cr-tag cr-tag--dark">BLOCKCHAIN</span>
+          </div>
+          <div class="i-line"></div>
+        </a>
+
+        <a href="https://play.google.com/store/apps/details?id=com.freevpnplanet"
+           target="_blank" rel="noopener" class="t-card" data-img="Images/vpnbg.jpg">
+          <div class="t-card-inner">
+            <span class="card-num">04</span>
+            <h3 class="card-title display-font">SECURE VPN APP</h3>
+            <div class="card-tags">
+              <span class="cr-tag">React Native</span>
+              <span class="cr-tag">AWS</span>
+              <span class="cr-tag">WireGuard</span>
+            </div>
+            <span class="cr-tag cr-tag--dark">MOBILE</span>
+          </div>
+          <div class="i-line"></div>
+        </a>
+
+      </div>
+
+      <div class="works-cta-row">
+        <a href="projects.html" class="pill-btn magnet">SEE ALL WORK</a>
+      </div>
+
+    </section>
+
+    <!-- ─── BREAK / EXPERIMENTAL ──────────────────────────── -->
+    <section class="section-break" id="break">
+
+      <!-- scrolling marquee strip at top -->
+      <div class="break-marquee-wrap">
+        <div class="break-marquee-track">
+          <span class="break-marquee-text">WEB3&nbsp;&nbsp;·&nbsp;&nbsp;BLOCKCHAIN&nbsp;&nbsp;·&nbsp;&nbsp;CYBERSECURITY&nbsp;&nbsp;·&nbsp;&nbsp;DeFi PROTOCOLS&nbsp;&nbsp;·&nbsp;&nbsp;OPEN SOURCE&nbsp;&nbsp;·&nbsp;&nbsp;MOBILE&nbsp;&nbsp;·&nbsp;&nbsp;SOLANA&nbsp;&nbsp;·&nbsp;&nbsp;PYTHON&nbsp;&nbsp;·&nbsp;&nbsp;REACT NATIVE&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+          <span class="break-marquee-text" aria-hidden="true">WEB3&nbsp;&nbsp;·&nbsp;&nbsp;BLOCKCHAIN&nbsp;&nbsp;·&nbsp;&nbsp;CYBERSECURITY&nbsp;&nbsp;·&nbsp;&nbsp;DeFi PROTOCOLS&nbsp;&nbsp;·&nbsp;&nbsp;OPEN SOURCE&nbsp;&nbsp;·&nbsp;&nbsp;MOBILE&nbsp;&nbsp;·&nbsp;&nbsp;SOLANA&nbsp;&nbsp;·&nbsp;&nbsp;PYTHON&nbsp;&nbsp;·&nbsp;&nbsp;REACT NATIVE&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+        </div>
+      </div>
+
+      <div class="section-header-row">
+        <span class="section-label">EXPERIMENTAL BUILDS</span>
+        <div class="i-line i-line--flex i-line--light"></div>
+      </div>
+
+      <div class="break-list">
+
+        <a href="https://github.com/Zikrypt" target="_blank" rel="noopener" class="break-item">
+          <div class="break-item-inner">
+            <span class="break-num">01</span>
+            <span class="break-title display-font">SOLANA COPY BOT</span>
+            <span class="cr-tag cr-tag--break">BLOCKCHAIN</span>
+          </div>
+          <div class="i-line i-line--dim"></div>
+        </a>
+
+        <a href="https://play.google.com/store/apps/details?id=com.freevpnplanet"
+           target="_blank" rel="noopener" class="break-item">
+          <div class="break-item-inner">
+            <span class="break-num">02</span>
+            <span class="break-title display-font">SECURE VPN APP</span>
+            <span class="cr-tag cr-tag--break">MOBILE</span>
+          </div>
+          <div class="i-line i-line--dim"></div>
+        </a>
+
+        <a href="https://github.com/Zikrypt" target="_blank" rel="noopener" class="break-item">
+          <div class="break-item-inner">
+            <span class="break-num">03</span>
+            <span class="break-title display-font">WEB3 DAPPS</span>
+            <span class="cr-tag cr-tag--break">WEB3</span>
+          </div>
+          <div class="i-line i-line--dim"></div>
+        </a>
+
+        <a href="https://github.com/Zikrypt" target="_blank" rel="noopener" class="break-item">
+          <div class="break-item-inner">
+            <span class="break-num">04</span>
+            <span class="break-title display-font">OPEN SOURCE TOOLS</span>
+            <span class="cr-tag cr-tag--break">DEV TOOLS</span>
+          </div>
+          <div class="i-line i-line--dim"></div>
+        </a>
+
+      </div>
+
+      <div class="works-cta-row">
+        <a href="projects.html" class="pill-btn pill-btn--inv magnet">SEE ALL WORK</a>
+      </div>
+
+    </section>
+
+    <!-- ─── ABOUT ──────────────────────────────────────────── -->
+    <section class="section-about" id="about">
+
+      <div class="section-header-row">
+        <span class="section-label">ABOUT</span>
+        <div class="i-line i-line--flex"></div>
+      </div>
+
+      <div class="about-grid">
+
+        <div class="about-left">
+          <div class="about-heading-wrap">
+            <div class="t-line-mask"><div class="about-heading display-font">BUILDING</div></div>
+            <div class="t-line-mask"><div class="about-heading display-font">THE FUTURE</div></div>
+            <div class="t-line-mask"><div class="about-heading display-font">OF THE WEB.</div></div>
+          </div>
+
+          <div class="about-body serif-text">
+            <p>I'm a passionate tech builder with 3+ years of experience across software development, cybersecurity, and Web3. I craft clean, efficient systems that connect people and push limits.</p>
+            <p>From Python and C++ to blockchain and secure mobile apps — I turn ambitious ideas into reliable, scalable products people actually use.</p>
+          </div>
+
+          <a href="Okelo Zikora CV.pdf" class="pill-btn magnet" target="_blank" rel="noopener">DOWNLOAD CV</a>
+        </div>
+
+        <div class="about-right">
+          <div class="about-img-wrap">
+            <img src="Images/me.jpeg" alt="Okelo Zikora" class="about-photo">
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─── FOOTER ─────────────────────────────────────────── -->
+    <footer class="site-footer">
+
+      <div class="footer-upper">
+        <div class="footer-col">
+          <p class="footer-col-label">SOCIAL</p>
+          <a href="https://www.instagram.com/_zikora.__?igsh=NmtidXp3OGE3b2Mw"
+             class="footer-link" target="_blank" rel="noopener">INSTAGRAM</a>
+          <a href="https://x.com/HACKWITHZIK"
+             class="footer-link" target="_blank" rel="noopener">TWITTER&thinsp;/&thinsp;X</a>
+          <a href="https://github.com/Zikrypt"
+             class="footer-link" target="_blank" rel="noopener">GITHUB</a>
+          <a href="https://www.linkedin.com/in/zikora-okelo-8818252a8"
+             class="footer-link" target="_blank" rel="noopener">LINKEDIN</a>
+        </div>
+        <div class="footer-center-col">
+          <a href="#hero" class="footer-back-top">BACK TO TOP ↑</a>
+        </div>
+        <div class="footer-col footer-col--right">
+          <p class="footer-col-label">NAVIGATION</p>
+          <a href="index.html" class="footer-link">HOME</a>
+          <a href="projects.html" class="footer-link">WORKS</a>
+          <a href="casestudy.html" class="footer-link">CASE STUDY</a>
+          <a href="contact.html" class="footer-link">CONTACT</a>
+        </div>
+      </div>
+
+      <div class="footer-marquee-wrap">
+        <div class="footer-marquee-track">
+          <span class="footer-marquee-text display-font">LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <span class="footer-marquee-text display-font" aria-hidden="true">LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span class="footer-bottom-text">LAGOS,&thinsp;NG</span>
+        <span class="footer-bottom-text" id="footer-time">--:-- --</span>
+        <span class="footer-bottom-text">6.5244°N&thinsp;3.3792°E</span>
+        <span class="footer-bottom-text">©2026 ALL RIGHTS RESERVED</span>
+      </div>
+
+    </footer>
+
+  </div><!-- /#smooth-wrapper -->
+
+  <!-- 3-layer cursor hover-reveal -->
+  <div class="cursor-reveal" id="cursor-reveal">
+    <div class="hover-reveal__inner">
+      <img src="" alt="" id="cursor-reveal-img">
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/SplitText.min.js"></script>
+  <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="scripts.js"></script>
+
 </body>
-
 </html>
