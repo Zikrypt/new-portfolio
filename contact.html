@@ -7,11 +7,46 @@
   <title>Contact — Okelo Zikora</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body data-route="contact">
+
+  <!-- ─── PAGE TRANSITION OVERLAY — 4 themed panels ────────── -->
+  <div class="page-transition" id="page-transition" aria-hidden="true">
+    <div class="pt-panel pt-panel--home" data-route="home">
+      <div class="pt-panel-inner">
+        <span class="pt-panel-num display-font">01</span>
+        <h2 class="pt-panel-title display-font">OKELO<br>ZIKORA</h2>
+        <span class="pt-panel-label">HOME · 2026</span>
+      </div>
+    </div>
+    <div class="pt-panel pt-panel--works" data-route="works">
+      <div class="pt-panel-inner">
+        <span class="pt-panel-letter pt-panel-letter--left display-font">W</span>
+        <span class="pt-panel-letter pt-panel-letter--right display-font">K</span>
+        <h2 class="pt-panel-title display-font">WORKS</h2>
+        <span class="pt-panel-label">SELECTED · PROJECTS</span>
+      </div>
+    </div>
+    <div class="pt-panel pt-panel--study" data-route="study">
+      <div class="pt-panel-inner">
+        <span class="pt-panel-letter pt-panel-letter--left display-font">C</span>
+        <span class="pt-panel-letter pt-panel-letter--right display-font">S</span>
+        <h2 class="pt-panel-title display-font">CASE<br>STUDY</h2>
+        <span class="pt-panel-label">DOCS · PROCESS</span>
+      </div>
+    </div>
+    <div class="pt-panel pt-panel--contact" data-route="contact">
+      <div class="pt-panel-inner">
+        <span class="pt-panel-letter pt-panel-letter--left display-font">S</span>
+        <span class="pt-panel-letter pt-panel-letter--right display-font">H</span>
+        <h2 class="pt-panel-title display-font">LET'S<br>BUILD</h2>
+        <span class="pt-panel-label">SAY · HELLO</span>
+      </div>
+    </div>
+  </div>
 
   <!-- Navigation -->
   <header class="site-header" id="site-header">

@@ -7,11 +7,51 @@
   <title>Okelo Zikora — Full-Stack Developer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body data-route="home">
+
+  <!-- ─── PAGE TRANSITION OVERLAY — 4 themed panels ────────── -->
+  <div class="page-transition" id="page-transition" aria-hidden="true">
+
+    <div class="pt-panel pt-panel--home" data-route="home">
+      <div class="pt-panel-inner">
+        <span class="pt-panel-num display-font">01</span>
+        <h2 class="pt-panel-title display-font">OKELO<br>ZIKORA</h2>
+        <span class="pt-panel-label">HOME · 2026</span>
+      </div>
+    </div>
+
+    <div class="pt-panel pt-panel--works" data-route="works">
+      <div class="pt-panel-inner">
+        <span class="pt-panel-letter pt-panel-letter--left display-font">W</span>
+        <span class="pt-panel-letter pt-panel-letter--right display-font">K</span>
+        <h2 class="pt-panel-title display-font">WORKS</h2>
+        <span class="pt-panel-label">SELECTED · PROJECTS</span>
+      </div>
+    </div>
+
+    <div class="pt-panel pt-panel--study" data-route="study">
+      <div class="pt-panel-inner">
+        <span class="pt-panel-letter pt-panel-letter--left display-font">C</span>
+        <span class="pt-panel-letter pt-panel-letter--right display-font">S</span>
+        <h2 class="pt-panel-title display-font">CASE<br>STUDY</h2>
+        <span class="pt-panel-label">DOCS · PROCESS</span>
+      </div>
+    </div>
+
+    <div class="pt-panel pt-panel--contact" data-route="contact">
+      <div class="pt-panel-inner">
+        <span class="pt-panel-letter pt-panel-letter--left display-font">S</span>
+        <span class="pt-panel-letter pt-panel-letter--right display-font">H</span>
+        <h2 class="pt-panel-title display-font">LET'S<br>BUILD</h2>
+        <span class="pt-panel-label">SAY · HELLO</span>
+      </div>
+    </div>
+
+  </div>
 
   <!-- ─── PRELOADER ───────────────────────────────────────── -->
   <div class="preloader" id="preloader">
@@ -22,6 +62,7 @@
   <!-- ─── NAVIGATION ──────────────────────────────────────── -->
   <header class="site-header" id="site-header">
     <div class="nav-left">
+      <span class="live-dot" aria-hidden="true"></span>
       <span class="nav-meta">LAGOS,&thinsp;NG</span>
       <span class="nav-meta nav-sep">/</span>
       <span class="nav-meta" id="nav-time">--:-- --</span>
@@ -59,36 +100,47 @@
         <div class="i-line"></div>
 
         <h1 class="hero-name" id="hero-name">
-          <span class="hero-name-line">OKELO</span>
-          <span class="hero-name-line">ZIKORA</span>
+          <span class="hero-name-line hero-name-line--left">OKELO</span>
+          <span class="hero-name-line hero-name-line--right">ZIKORA</span>
         </h1>
 
         <div class="i-line"></div>
 
         <div class="hero-bottom-row">
-          <span class="hero-sub display-font">A FULL-STACK</span>
-          <span class="hero-sub display-font">DEVELOPER</span>
+          <span class="hero-sub hero-sub--left display-font">A FULL-STACK</span>
+          <span class="hero-sub hero-sub--right display-font">DEVELOPER</span>
+        </div>
+
+        <!-- Pinned video tile — scales on scroll -->
+        <div class="hero-video-tile" id="hero-video-tile">
+          <video class="hero-video" autoplay muted loop playsinline>
+            <source src="bgvideo.mp4" type="video/mp4">
+          </video>
+          <div class="hero-video-caption">
+            <span>WEB3 BUILDS</span>
+            <span>2026 / REEL</span>
+          </div>
         </div>
 
       </div>
-
-      <video class="hero-video" autoplay muted loop playsinline>
-        <source src="bgvideo.mp4" type="video/mp4">
-      </video>
 
       <span class="hero-scroll-hint"><span class="blink-dot"></span>SCROLL DOWN</span>
     </section>
 
     <!-- ─── INTRO ─────────────────────────────────────────── -->
-    <section class="section-intro">
+    <section class="section-intro" id="intro">
+      <div class="intro-caption-wrap">
+        <span class="intro-caption" data-idx="0">PURPOSEFUL <em>Development</em></span>
+        <span class="intro-caption" data-idx="1">BUILDING <em>Systems</em></span>
+        <span class="intro-caption" data-idx="2">WITH <em>Meaning</em></span>
+      </div>
       <div class="intro-block">
         <div class="t-line-mask"><div class="intro-word display-font">PURPOSEFUL</div></div>
-        <div class="t-line-mask"><div class="intro-word intro-word--sm serif-text">Code &amp; Architecture /</div></div>
+        <div class="t-line-mask"><div class="intro-word display-font">CODE</div></div>
         <div class="t-line-mask"><div class="intro-word display-font">BUILDING</div></div>
-        <div class="t-line-mask"><div class="intro-word intro-word--sm serif-text">Systems that scale /</div></div>
-        <div class="t-line-mask"><div class="intro-word display-font">BLOCKCHAIN</div></div>
-        <div class="t-line-mask"><div class="intro-word intro-word--sm serif-text">Security with</div></div>
-        <div class="t-line-mask"><div class="intro-word display-font">MEANING</div></div>
+        <div class="t-line-mask"><div class="intro-word display-font">SYSTEMS</div></div>
+        <div class="t-line-mask"><div class="intro-word intro-word--sm serif-text">(with) meaning through</div></div>
+        <div class="t-line-mask"><div class="intro-word display-font">ENGINEERING</div></div>
       </div>
     </section>
 
@@ -104,6 +156,9 @@
 
         <a href="https://www.pekamyfreshminds.com/" target="_blank" rel="noopener"
            class="t-card" data-img="Images/recruitment bg.jpg">
+          <video class="t-card-hover-media" muted loop playsinline preload="metadata">
+            <source src="bgvideo.mp4" type="video/mp4">
+          </video>
           <div class="t-card-inner">
             <span class="card-num">01</span>
             <h3 class="card-title display-font">PEKAMY FRESHMINDS</h3>
@@ -118,6 +173,9 @@
         </a>
 
         <a href="projects.html" class="t-card" data-img="Images/car bg.jpg">
+          <video class="t-card-hover-media" muted loop playsinline preload="metadata">
+            <source src="bgvideo.mp4" type="video/mp4">
+          </video>
           <div class="t-card-inner">
             <span class="card-num">02</span>
             <h3 class="card-title display-font">EVERYDAY MOTORS</h3>
@@ -133,6 +191,9 @@
 
         <a href="https://github.com/Zikrypt" target="_blank" rel="noopener"
            class="t-card" data-img="Images/solanabg.jpg">
+          <video class="t-card-hover-media" muted loop playsinline preload="metadata">
+            <source src="bgvideo.mp4" type="video/mp4">
+          </video>
           <div class="t-card-inner">
             <span class="card-num">03</span>
             <h3 class="card-title display-font">SOLANA COPY BOT</h3>
@@ -148,6 +209,9 @@
 
         <a href="https://play.google.com/store/apps/details?id=com.freevpnplanet"
            target="_blank" rel="noopener" class="t-card" data-img="Images/vpnbg.jpg">
+          <video class="t-card-hover-media" muted loop playsinline preload="metadata">
+            <source src="bgvideo.mp4" type="video/mp4">
+          </video>
           <div class="t-card-inner">
             <span class="card-num">04</span>
             <h3 class="card-title display-font">SECURE VPN APP</h3>

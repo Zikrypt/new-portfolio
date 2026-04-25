@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Okelo Zikora — Visual Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Bodoni+Moda:ital,wght@0,400;1,400&family=Oswald:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bone:#ebeae4;
+    --ink:#090909;
+    --olive:#4d5c04;
+    --espresso:#341c09;
+    --burnt:#b5542e;
+    --yellow:#ffdb00;
+    --charcoal:#2e2e2e;
+    --cream:#eee9d1;
+    --ease:cubic-bezier(0.496,0.004,0,1);
+    --base-size:1440;
+    --base-vw:100vw;
+    --fluid: calc(1 / var(--base-size) * var(--base-vw));
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:var(--ink);scroll-behavior:smooth}
+  body{
+    font-family:"Times New Roman",serif;
+    font-size:12px;
+    color:var(--ink);
+    background:var(--bone);
+    overflow-x:hidden;
+    cursor:none;
+  }
+  ::selection{background:var(--ink);color:var(--bone)}
+
+  /* Custom cursor */
+  .cursor{
+    position:fixed;width:14px;height:14px;border:1px solid var(--ink);
+    border-radius:50%;pointer-events:none;z-index:9999;
+    transform:translate(-50%,-50%);
+    transition:width .35s var(--ease),height .35s var(--ease),background .35s var(--ease),border-color .35s var(--ease);
+    mix-blend-mode:difference;background:transparent;
+  }
+  .cursor.lg{width:64px;height:64px;background:var(--bone)}
+
+  /* Grain */
+  .grain{
+    position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.06;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    mix-blend-mode:multiply;
+  }
+
+  /* Header */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px 22px;
+    font-family:"Manrope",sans-serif;font-weight:800;
+    font-size:11px;letter-spacing:.04em;text-transform:uppercase;
+    mix-blend-mode:difference;color:var(--bone);
+  }
+  header .meta{display:flex;gap:18px;align-items:center}
+  header .dot{width:7px;height:7px;border-radius:50%;background:var(--burnt);
+    box-shadow:0 0 0 0 rgba(181,84,46,.6);animation:pulse 1.6s var(--ease) infinite}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(181,84,46,.6)}
+    100%{box-shadow:0 0 0 10px rgba(181,84,46,0)}
+  }
+  nav ul{list-style:none;display:flex;gap:26px}
+  nav a{
+    color:inherit;text-decoration:none;display:inline-block;height:1.1em;
+    overflow:hidden;position:relative;line-height:1.1;
+  }
+  nav a span{display:block;transition:transform .55s var(--ease)}
+  nav a span+span{position:absolute;top:100%;left:0}
+  nav a:hover span{transform:translateY(-100%)}
+
+  /* Hero */
+  .hero{
+    min-height:100vh;position:relative;padding:80px 22px 40px;
+    display:flex;flex-direction:column;justify-content:space-between;
+    background:var(--bone);
+  }
+  .wordmark{
+    font-family:"Oswald",sans-serif;font-weight:800;
+    font-size:calc(255 * var(--fluid));
+    line-height:.82;letter-spacing:.005em;
+    text-transform:uppercase;color:var(--ink);
+    transform:scaleY(1.18);transform-origin:top;
+    margin-top:18px;white-space:nowrap;
+  }
+  .wordmark .row{display:flex;justify-content:space-between;align-items:baseline}
+  .wordmark .row .small{
+    font-family:"Bodoni Moda",serif;font-style:italic;font-weight:400;
+    font-size:calc(28 * var(--fluid));
+    text-transform:none;letter-spacing:0;transform:scaleY(.85);
+    align-self:center;color:var(--charcoal);
+  }
+
+  .reel{
+    position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);
+    width:calc(280 * var(--fluid));aspect-ratio:4/3;
+    background:var(--ink);color:var(--cream);
+    padding:10px;display:flex;flex-direction:column;gap:8px;
+    border-radius:2px;box-shadow:0 30px 80px -20px rgba(0,0,0,.45);
+    z-index:2;
+  }
+  .reel .label{
+    display:flex;justify-content:space-between;
+    font-family:"Manrope",sans-serif;font-weight:800;font-size:9px;
+    letter-spacing:.18em;text-transform:uppercase;
+  }
+  .reel .grid{
+    flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;
+  }
+  .reel .grid div{background:var(--charcoal);position:relative;overflow:hidden}
+  .reel .grid div::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(135deg,var(--burnt),var(--olive),var(--yellow),var(--espresso));
+    background-size:300% 300%;animation:shift 8s ease infinite;
+    opacity:.85;mix-blend-mode:screen;
+  }
+  .reel .grid div:nth-child(2)::after{animation-delay:-2s}
+  .reel .grid div:nth-child(3)::after{animation-delay:-4s}
+  .reel .grid div:nth-child(4)::after{animation-delay:-6s}
+  .reel .grid div:nth-child(5)::after{animation-delay:-1s}
+  .reel .grid div:nth-child(6)::after{animation-delay:-3s}
+  @keyframes shift{
+    0%,100%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+  }
+  .reel .foot{
+    display:flex;justify-content:space-between;
+    font-family:"Bodoni Moda",serif;font-style:italic;font-size:11px;
+  }
+
+  .tagline{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    font-family:"Oswald",sans-serif;font-weight:800;
+    font-size:calc(178 * var(--fluid));
+    text-transform:uppercase;line-height:.85;
+    transform:scaleY(1.15);transform-origin:bottom;
+    position:relative;z-index:1;
+  }
+  .tagline .scroll-cue{
+    position:absolute;left:50%;bottom:6px;transform:translateX(-50%);
+    font-family:"Manrope",sans-serif;font-weight:800;font-size:10px;
+    letter-spacing:.22em;text-transform:uppercase;
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+  }
+  .tagline .scroll-cue::after{
+    content:"";width:1px;height:34px;background:var(--ink);
+    animation:drop 1.6s var(--ease) infinite;transform-origin:top;
+  }
+  @keyframes drop{
+    0%{transform:scaleY(0)}
+    50%{transform:scaleY(1)}
+    100%{transform:scaleY(0);transform-origin:bottom}
+  }
+
+  /* Section header strip */
+  .strip{
+    display:grid;grid-template-columns:1fr 2fr 1fr;
+    padding:80px 22px 40px;gap:40px;align-items:start;
+    border-top:1px solid var(--ink);
+  }
+  .strip .num{
+    font-family:"Bodoni Moda",serif;font-style:italic;font-size:14px;
+  }
+  .strip h2{
+    font-family:"Times New Roman",serif;font-weight:400;
+    font-size:13px;line-height:1.25;max-width:46ch;
+  }
+  .strip h2 em{font-style:italic;color:var(--burnt)}
+  .strip .label{
+    text-align:right;
+    font-family:"Manrope",sans-serif;font-weight:800;
+    font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  }
+
+  /* Works */
+  .works{padding:0 22px 80px}
+  .work{
+    display:grid;grid-template-columns:60px 1fr 1fr 60px;
+    gap:30px;padding:36px 0;border-top:1px solid var(--ink);
+    align-items:center;position:relative;
+  }
+  .work:last-child{border-bottom:1px solid var(--ink)}
+  .work .num{
+    font-family:"Oswald",sans-serif;font-weight:800;font-size:24px;
+    transform:scaleY(1.2);transform-origin:left;
+  }
+  .work .title{
+    font-family:"Oswald",sans-serif;font-weight:800;
+    font-size:calc(78 * var(--fluid));text-transform:uppercase;
+    line-height:.88;transform:scaleY(1.18);transform-origin:left;
+    overflow:hidden;
+  }
+  .work .title .l{
+    display:inline-block;transition:transform .6s var(--ease);
+    position:relative;
+  }
+  .work .title .l span{display:block}
+  .work .title .l span+span{
+    position:absolute;top:100%;left:0;color:var(--burnt);font-style:italic;
+    font-family:"Bodoni Moda",serif;font-weight:400;transform:scaleY(.78);
+  }
+  .work:hover .title .l span{transform:translateY(-100%)}
+  .work .title .l:nth-child(1) span{transition-delay:.0s}
+  .work .title .l:nth-child(2) span{transition-delay:.03s}
+  .work .title .l:nth-child(3) span{transition-delay:.06s}
+  .work .title .l:nth-child(4) span{transition-delay:.09s}
+  .work .title .l:nth-child(5) span{transition-delay:.12s}
+  .work .title .l:nth-child(6) span{transition-delay:.15s}
+  .work .title .l:nth-child(7) span{transition-delay:.18s}
+  .work .title .l:nth-child(8) span{transition-delay:.21s}
+  .work .title .l:nth-child(9) span{transition-delay:.24s}
+  .work .title .l:nth-child(10) span{transition-delay:.27s}
+
+  .work .meta{
+    font-family:"Manrope",sans-serif;font-weight:700;font-size:10px;
+    letter-spacing:.18em;text-transform:uppercase;
+    display:flex;flex-direction:column;gap:4px;
+  }
+  .work .meta .play{
+    display:flex;align-items:center;gap:6px;color:var(--burnt);
+  }
+  .work .meta .play .pdot{
+    width:7px;height:7px;border-radius:50%;background:var(--burnt);
+    animation:blink .8s linear infinite;
+  }
+  @keyframes blink{50%{opacity:0}}
+  .work .arrow{
+    text-align:right;font-family:"Bodoni Moda",serif;font-style:italic;font-size:22px;
+    transition:transform .6s var(--ease);
+  }
+  .work:hover .arrow{transform:translateX(8px)}
+
+  /* Hover preview */
+  .work .preview{
+    position:absolute;right:80px;top:50%;width:280px;height:180px;
+    transform:translate(20px,-50%) scale(.9);opacity:0;pointer-events:none;
+    background:linear-gradient(135deg,var(--burnt),var(--olive));
+    transition:all .9s var(--ease);z-index:5;overflow:hidden;
+  }
+  .work:hover .preview{opacity:1;transform:translate(0,-50%) scale(1)}
+  .work .preview::after{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 30% 40%,rgba(255,219,0,.6),transparent 60%),
+               radial-gradient(circle at 70% 60%,rgba(52,28,9,.7),transparent 60%);
+  }
+  .work:nth-child(2) .preview{background:var(--olive)}
+  .work:nth-child(3) .preview{background:var(--burnt)}
+  .work:nth-child(4) .preview{background:var(--espresso)}
+  .work:nth-child(5) .preview{background:var(--yellow)}
+
+  /* Transition panel */
+  .transition{
+    height:100vh;background:var(--olive);color:var(--cream);
+    display:flex;flex-direction:column;justify-content:center;
+    overflow:hidden;position:relative;
+  }
+  .transition .marquee{
+    font-family:"Oswald",sans-serif;font-weight:800;
+    font-size:calc(298 * var(--fluid));
+    line-height:.75;text-transform:uppercase;
+    transform:scaleY(1.2);transform-origin:center;
+    white-space:nowrap;display:flex;gap:40px;
+    animation:marquee 22s linear infinite;
+  }
+  .transition .marquee.rev{animation-direction:reverse;color:transparent;-webkit-text-stroke:1px var(--cream)}
+  @keyframes marquee{
+    from{transform:translateX(0) scaleY(1.2)}
+    to{transform:translateX(-50%) scaleY(1.2)}
+  }
+  .transition .stamp{
+    position:absolute;bottom:24px;right:24px;
+    font-family:"Bodoni Moda",serif;font-style:italic;font-size:14px;
+    color:var(--cream);
+  }
+  .transition .stamp::before{content:"※ ";color:var(--yellow)}
+
+  /* BREAK grid */
+  .break{
+    background:var(--ink);color:var(--bone);padding:80px 22px;
+  }
+  .break .strip{border-top-color:var(--bone);color:var(--bone)}
+  .break .strip h2 em{color:var(--yellow)}
+  .break-grid{
+    display:grid;grid-template-columns:repeat(12,1fr);gap:14px;
+    margin-top:30px;
+  }
+  .tile{
+    position:relative;aspect-ratio:4/5;overflow:hidden;cursor:none;
+    background:var(--charcoal);
+  }
+  .tile:nth-child(1){grid-column:span 5;background:var(--burnt)}
+  .tile:nth-child(2){grid-column:span 4;background:var(--olive)}
+  .tile:nth-child(3){grid-column:span 3;background:var(--yellow);aspect-ratio:3/4}
+  .tile:nth-child(4){grid-column:span 4;background:var(--espresso)}
+  .tile:nth-child(5){grid-column:span 8;background:var(--charcoal);aspect-ratio:16/9}
+  .tile .cap{
+    position:absolute;left:14px;bottom:14px;right:14px;
+    display:flex;justify-content:space-between;align-items:end;
+    color:var(--bone);
+    font-family:"Manrope",sans-serif;font-weight:800;font-size:10px;
+    letter-spacing:.16em;text-transform:uppercase;
+    z-index:2;
+  }
+  .tile:nth-child(3) .cap{color:var(--ink)}
+  .tile .num{
+    font-family:"Oswald",sans-serif;font-weight:800;
+    font-size:calc(120 * var(--fluid));line-height:.8;
+    transform:scaleY(1.15);
+  }
+  .tile::before{
+    content:"";position:absolute;inset:0;
+    background:rgba(0,0,0,.0);transition:background .6s var(--ease);z-index:1;
+  }
+  .tile:hover::before{background:rgba(0,0,0,.55)}
+  .tile .reveal{
+    position:absolute;left:14px;top:14px;color:var(--bone);
+    font-family:"Bodoni Moda",serif;font-style:italic;font-size:14px;
+    transform:translateY(-100%);transition:transform .6s var(--ease);z-index:2;
+  }
+  .tile:hover .reveal{transform:translateY(0)}
+  .tile:nth-child(3) .reveal{color:var(--ink)}
+  .tile .pattern{position:absolute;inset:0;opacity:.4;mix-blend-mode:overlay}
+  .tile:nth-child(1) .pattern{background:repeating-linear-gradient(45deg,#0000,#0000 8px,#0003 8px,#0003 16px)}
+  .tile:nth-child(2) .pattern{background:radial-gradient(circle at 30% 30%,#fff5,transparent 50%)}
+  .tile:nth-child(4) .pattern{background:repeating-linear-gradient(0deg,#fff1,#fff1 1px,transparent 1px,transparent 6px)}
+  .tile:nth-child(5) .pattern{background:linear-gradient(120deg,#b5542e88,#ffdb0044)}
+
+  /* Footer */
+  footer{
+    background:var(--bone);color:var(--ink);padding:80px 22px 22px;
+    border-top:1px solid var(--ink);
+  }
+  .ft-mark{
+    font-family:"Oswald",sans-serif;font-weight:800;
+    font-size:calc(220 * var(--fluid));line-height:.85;text-transform:uppercase;
+    transform:scaleY(1.2);transform-origin:top;letter-spacing:.005em;
+  }
+  .ft-mark span{color:transparent;-webkit-text-stroke:1px var(--ink);font-style:italic;font-family:"Bodoni Moda",serif;font-weight:400;transform:scaleY(.78);display:inline-block}
+  .ft-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:30px;margin-top:60px;
+    font-family:"Manrope",sans-serif;font-weight:800;font-size:11px;
+    letter-spacing:.16em;text-transform:uppercase;
+  }
+  .ft-grid h4{font-size:10px;color:var(--charcoal);margin-bottom:10px;font-weight:700}
+  .ft-grid a{display:block;color:var(--ink);text-decoration:none;padding:4px 0;border-bottom:1px solid #0001;transition:padding-left .4s var(--ease),color .4s var(--ease)}
+  .ft-grid a:hover{padding-left:10px;color:var(--burnt)}
+  .ft-bottom{
+    margin-top:60px;display:flex;justify-content:space-between;
+    font-family:"Manrope",sans-serif;font-weight:800;font-size:10px;
+    letter-spacing:.18em;text-transform:uppercase;
+  }
+
+  @media (max-width:760px){
+    :root{--base-vw:160vw}
+    .strip{grid-template-columns:1fr}
+    .work{grid-template-columns:40px 1fr 40px;gap:14px}
+    .work .meta{display:none}
+    .ft-grid{grid-template-columns:1fr 1fr}
+    .break-grid{grid-template-columns:repeat(6,1fr)}
+    .tile:nth-child(n){grid-column:span 6}
+  }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="cursor" id="cursor"></div>
+
+<header>
+  <div class="meta">
+    <span class="dot"></span>
+    <span>Nairobi, KE</span>
+    <span id="clock">—</span>
+    <span>1.2921° S, 36.8219° E</span>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="#work"><span>Work</span><span>Work</span></a></li>
+      <li><a href="#break"><span>Break</span><span>Break</span></a></li>
+      <li><a href="#about"><span>About</span><span>About</span></a></li>
+      <li><a href="#contact"><span>Contact</span><span>Contact</span></a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wordmark">
+    <div class="row"><span>OKELO</span><span class="small">portfolio №07 — mmxxvi</span></div>
+    <div class="row"><span>ZIKORA</span></div>
+  </div>
+
+  <div class="reel">
+    <div class="label"><span>Visual Design</span><span>2026 ●</span></div>
+    <div class="grid"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    <div class="foot"><span>okelo z.</span><span>demo reel</span></div>
+  </div>
+
+  <div class="tagline">
+    <span>A Visual</span>
+    <span>Designer</span>
+    <div class="scroll-cue"><span>Scroll</span></div>
+  </div>
+</section>
+
+<div class="strip" id="work">
+  <div class="num">§ 01 — selected</div>
+  <h2>Purposeful design built around <em>motion, story, and surface</em>. Four projects from the past eighteen months — exploring identity systems, editorial direction, and the texture of moving image.</h2>
+  <div class="label">2024 / 2026</div>
+</div>
+
+<section class="works">
+  <a class="work" href="#">
+    <div class="num">01</div>
+    <div class="title">
+      <span class="l"><span>H</span><span>h</span></span><span class="l"><span>O</span><span>o</span></span><span class="l"><span>T</span><span>t</span></span><span class="l"><span>P</span><span>p</span></span><span class="l"><span>O</span><span>o</span></span><span class="l"><span>T</span><span>t</span></span>
+    </div>
+    <div class="meta">
+      <span>Concept · Motion</span>
+      <span class="play"><span class="pdot"></span>Now playing</span>
+    </div>
+    <div class="arrow">→</div>
+    <div class="preview"></div>
+  </a>
+  <a class="work" href="#">
+    <div class="num">02</div>
+    <div class="title">
+      <span class="l"><span>F</span><span>f</span></span><span class="l"><span>L</span><span>l</span></span><span class="l"><span>O</span><span>o</span></span><span class="l"><span>W</span><span>w</span></span>
+    </div>
+    <div class="meta">
+      <span>Art Direction · Concept</span>
+      <span class="play"><span class="pdot"></span>Hover to play</span>
+    </div>
+    <div class="arrow">→</div>
+    <div class="preview"></div>
+  </a>
+  <a class="work" href="#">
+    <div class="num">03</div>
+    <div class="title">
+      <span class="l"><span>P</span><span>p</span></span><span class="l"><span>R</span><span>r</span></span><span class="l"><span>E</span><span>e</span></span><span class="l"><span>C</span><span>c</span></span><span class="l"><span>O</span><span>o</span></span><span class="l"><span>L</span><span>l</span></span><span class="l"><span>L</span><span>l</span></span>
+    </div>
+    <div class="meta">
+      <span>Concept · Motion</span>
+      <span class="play"><span class="pdot"></span>Hover to play</span>
+    </div>
+    <div class="arrow">→</div>
+    <div class="preview"></div>
+  </a>
+  <a class="work" href="#">
+    <div class="num">04</div>
+    <div class="title">
+      <span class="l"><span>T</span><span>t</span></span><span class="l"><span>A</span><span>a</span></span><span class="l"><span>S</span><span>s</span></span><span class="l"><span>T</span><span>t</span></span><span class="l"><span>E</span><span>e</span></span><span class="l"><span>G</span><span>g</span></span><span class="l"><span>A</span><span>a</span></span><span class="l"><span>P</span><span>p</span></span>
+    </div>
+    <div class="meta">
+      <span>Concept · Motion</span>
+      <span class="play"><span class="pdot"></span>Hover to play</span>
+    </div>
+    <div class="arrow">→</div>
+    <div class="preview"></div>
+  </a>
+</section>
+
+<section class="transition">
+  <div class="marquee">
+    <span>Make · Move · Make · Move · Make · Move ·</span>
+    <span>Make · Move · Make · Move · Make · Move ·</span>
+  </div>
+  <div class="marquee rev">
+    <span>Studio of Okelo · Studio of Okelo · Studio of Okelo ·</span>
+    <span>Studio of Okelo · Studio of Okelo · Studio of Okelo ·</span>
+  </div>
+  <div class="stamp">interlude — chapter ii</div>
+</section>
+
+<section class="break" id="break">
+  <div class="strip">
+    <div class="num">§ 02 — break</div>
+    <h2>Loose ends, experiments, and the work that <em>doesn't fit anywhere else</em>. Updated whenever something interesting falls out of the studio.</h2>
+    <div class="label">Ongoing</div>
+  </div>
+  <div class="break-grid">
+    <div class="tile"><div class="pattern"></div><div class="reveal">view ↗</div><div class="cap"><span class="num">01</span><span>Avant-Garde 25</span></div></div>
+    <div class="tile"><div class="pattern"></div><div class="reveal">view ↗</div><div class="cap"><span class="num">02</span><span>Pea</span></div></div>
+    <div class="tile"><div class="pattern"></div><div class="reveal">view ↗</div><div class="cap"><span class="num">03</span><span>Graff Mayhem</span></div></div>
+    <div class="tile"><div class="pattern"></div><div class="reveal">view ↗</div><div class="cap"><span class="num">04</span><span>Future Proof</span></div></div>
+    <div class="tile"><div class="pattern"></div><div class="reveal">view ↗</div><div class="cap"><span class="num">05</span><span>Xenoflora</span></div></div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="ft-mark">Let's <span>make</span> something</div>
+  <div class="ft-grid">
+    <div>
+      <h4>Studio</h4>
+      <a href="#">Nairobi, KE</a>
+      <a href="#">Available · Q2 2026</a>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <a href="mailto:hello@okelo.studio">hello@okelo.studio</a>
+      <a href="#">+254 · — · —</a>
+    </div>
+    <div>
+      <h4>Index</h4>
+      <a href="#work">Work</a>
+      <a href="#break">Break</a>
+      <a href="#about">About</a>
+    </div>
+    <div>
+      <h4>Elsewhere</h4>
+      <a href="#">Instagram</a>
+      <a href="#">Are.na</a>
+      <a href="#">Vimeo</a>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <span>© Okelo Zikora — MMXXVI</span>
+    <span>Built with care, not frameworks.</span>
+  </div>
+</footer>
+
+<script>
+  // Live clock
+  const clock = document.getElementById('clock');
+  function tick(){
+    const d = new Date();
+    const t = d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    const off = -d.getTimezoneOffset()/60;
+    clock.textContent = `${t} GMT${off>=0?'+':''}${off}`;
+  }
+  tick(); setInterval(tick,30000);
+
+  // Custom cursor
+  const cur = document.getElementById('cursor');
+  let cx=0,cy=0,tx=0,ty=0;
+  window.addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY});
+  function loop(){
+    cx += (tx-cx)*0.18; cy += (ty-cy)*0.18;
+    cur.style.left=cx+'px'; cur.style.top=cy+'px';
+    requestAnimationFrame(loop);
+  }
+  loop();
+  document.querySelectorAll('a,.work,.tile').forEach(el=>{
+    el.addEventListener('mouseenter',()=>cur.classList.add('lg'));
+    el.addEventListener('mouseleave',()=>cur.classList.remove('lg'));
+  });
+
+  // Hero tagline collide on scroll
+  const tag = document.querySelector('.tagline');
+  window.addEventListener('scroll',()=>{
+    const y = Math.min(window.scrollY/600,1);
+    const left = tag.children[0], right = tag.children[1];
+    left.style.transform = `translateX(${y*22}vw)`;
+    right.style.transform = `translateX(${-y*22}vw)`;
+    left.style.letterSpacing = (y*-0.04)+'em';
+    right.style.letterSpacing = (y*-0.04)+'em';
+  },{passive:true});
+</script>
+</body>
+</html>
