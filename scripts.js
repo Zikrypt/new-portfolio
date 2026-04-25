@@ -4,6 +4,8 @@
    ============================================================ */
 
 gsap.registerPlugin(ScrollTrigger);
+/* Normalize touch scrolling so pinned/horizontal sections work reliably on mobile */
+if (ScrollTrigger.normalizeScroll) ScrollTrigger.normalizeScroll(true);
 if (typeof SplitText !== 'undefined') gsap.registerPlugin(SplitText);
 
 /* Closest GSAP match to the reference cubic-bezier(0.496, 0.004, 0, 1) */
@@ -629,12 +631,16 @@ function initProjectsStack() {
       });
     }
 
-    /* Stack effect: when the NEXT card scrolls in, scale this one down */
+    /* Stack effect: when the NEXT card scrolls in, shrink/dim this one's
+       contents. We target the card's children (not the sticky card itself)
+       so the sticky positioning isn't disturbed by transform — that was
+       leaving a visible gap between the outgoing and incoming cards. */
     if (i < cards.length - 1) {
-      gsap.to(card, {
-        scale: 0.86,
-        yPercent: -8,
+      const inner = card.querySelectorAll(':scope > *');
+      gsap.to(inner, {
+        scale: 0.92,
         opacity: 0.55,
+        transformOrigin: '50% 50%',
         ease: 'none',
         scrollTrigger: {
           trigger: cards[i + 1],
@@ -1049,6 +1055,114 @@ function initCardHoverVideo() {
 }
 
 /* ============================================================
+   FAQ ACCORDION (contact.html)
+   Closes other items when one opens (single-open behaviour).
+   ============================================================ */
+function initFaq() {
+  const items = document.querySelectorAll('.faq-item');
+  if (!items.length) return;
+  items.forEach((item) => {
+    const btn = item.querySelector('.faq-q');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const open = item.classList.contains('is-open');
+      items.forEach((other) => {
+        other.classList.remove('is-open');
+        const ob = other.querySelector('.faq-q');
+        if (ob) ob.setAttribute('aria-expanded', 'false');
+      });
+      if (!open) {
+        item.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+}
+
+/* ============================================================
+   CAPABILITIES BENTO — reveal + rotator + count-up
+   ============================================================ */
+function initBento() {
+  const section = document.querySelector('.section-bento');
+  if (!section) return;
+
+  /* Reveal on scroll */
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          section.classList.add('in-view');
+          io.unobserve(section);
+          startCountUps();
+        }
+      });
+    }, { threshold: 0.18 });
+    io.observe(section);
+  } else {
+    section.classList.add('in-view');
+    startCountUps();
+  }
+
+  /* Rotator — cycle "I build [word]" every ~3.2s */
+  const words = section.querySelectorAll('.rword');
+  if (words.length > 1) {
+    let idx = 0;
+    setInterval(() => {
+      const cur = words[idx];
+      idx = (idx + 1) % words.length;
+      const next = words[idx];
+      cur.classList.remove('is-active');
+      cur.classList.add('is-leaving');
+      next.classList.remove('is-leaving');
+      // force reflow so transition replays
+      void next.offsetWidth;
+      next.classList.add('is-active');
+      setTimeout(() => cur.classList.remove('is-leaving'), 700);
+    }, 3200);
+  }
+
+  function startCountUps() {
+    section.querySelectorAll('.stat-num').forEach((el) => {
+      const target = parseInt(el.dataset.count || '0', 10);
+      if (!target) return;
+      const dur = 1400;
+      const start = performance.now();
+      const plus = el.querySelector('.stat-plus');
+      const tick = (now) => {
+        const t = Math.min(1, (now - start) / dur);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const val = Math.round(target * eased);
+        el.firstChild.nodeValue = String(val).padStart(String(target).length, '0');
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+      // ensure plus stays appended
+      if (plus && el.lastChild !== plus) el.appendChild(plus);
+    });
+  }
+}
+
+/* ============================================================
+   PRICING — IntersectionObserver-driven staggered reveal
+   ============================================================ */
+function initPricingReveal() {
+  const section = document.querySelector('.section-pricing');
+  if (!section || !('IntersectionObserver' in window)) {
+    if (section) section.classList.add('in-view');
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        section.classList.add('in-view');
+        io.unobserve(section);
+      }
+    });
+  }, { threshold: 0.18 });
+  io.observe(section);
+}
+
+/* ============================================================
    MAIN INIT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
@@ -1082,6 +1196,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initContactTilt();
     initSectionHeaders();
     initRowReveals();
+    initBento();
+    initPricingReveal();
+    initFaq();
     ScrollTrigger.refresh();
   };
 
