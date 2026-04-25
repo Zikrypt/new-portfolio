@@ -582,6 +582,266 @@ function initForm() {
 }
 
 /* ============================================================
+   PROJECTS — STICKY STACK
+   Each card pins to the top of the viewport while scrolling,
+   the next card slides up over it. As the next card takes
+   the screen, the previous one scales down + dims, creating
+   a stacked-card depth effect.
+   ============================================================ */
+function initProjectsStack() {
+  const cards = gsap.utils.toArray('.project-stack-card');
+  if (!cards.length) return;
+
+  cards.forEach((card, i) => {
+    /* Image parallax inside each card */
+    const img = card.querySelector('.psc-img');
+    if (img) {
+      gsap.fromTo(img,
+        { yPercent: -8, scale: 1.08 },
+        {
+          yPercent: 8,
+          scale: 1.0,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1.1,
+          },
+        }
+      );
+    }
+
+    /* Title mask reveal as the card pins */
+    const titleWords = card.querySelectorAll('.psc-title-word');
+    if (titleWords.length) {
+      gsap.set(titleWords, { yPercent: 110 });
+      gsap.to(titleWords, {
+        yPercent: 0,
+        duration: 0.9,
+        ease: EASE,
+        stagger: 0.07,
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 70%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+    }
+
+    /* Stack effect: when the NEXT card scrolls in, scale this one down */
+    if (i < cards.length - 1) {
+      gsap.to(card, {
+        scale: 0.86,
+        yPercent: -8,
+        opacity: 0.55,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: cards[i + 1],
+          start: 'top bottom',
+          end: 'top top',
+          scrub: 1,
+        },
+      });
+    }
+  });
+}
+
+/* ============================================================
+   CASE STUDY — HORIZONTAL PINNED SCROLL
+   Container is pinned vertically; child track translates X
+   based on scroll progress. Progress dots in the gutter
+   update as each panel passes center.
+   ============================================================ */
+function initCasestudyHorizontal() {
+  const stage = document.querySelector('.cs-stage');
+  const track = document.querySelector('.cs-track');
+  if (!stage || !track) return;
+
+  const panels = gsap.utils.toArray('.cs-panel');
+  const total  = panels.length;
+  if (!total) return;
+
+  const scrollDist = () => Math.max(0, track.scrollWidth - window.innerWidth);
+
+  gsap.to(track, {
+    x: () => -scrollDist(),
+    ease: 'none',
+    scrollTrigger: {
+      trigger: stage,
+      start: 'top top',
+      end: () => '+=' + scrollDist(),
+      pin: true,
+      scrub: 1,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+    },
+  });
+
+  /* Progress dots — light up as each panel center crosses viewport center */
+  const dots = document.querySelectorAll('.cs-dot');
+  if (dots.length === total) {
+    ScrollTrigger.create({
+      trigger: stage,
+      start: 'top top',
+      end: () => '+=' + scrollDist(),
+      onUpdate: (self) => {
+        const i = Math.min(total - 1, Math.floor(self.progress * total));
+        dots.forEach((d, j) => d.classList.toggle('is-active', j === i));
+      },
+    });
+  }
+
+  /* Per-panel content fade-in as they enter the visible area */
+  panels.forEach((p, i) => {
+    const inner = p.querySelector('.cs-panel-content');
+    const num   = p.querySelector('.cs-panel-num');
+    if (!inner) return;
+    gsap.from(inner.children, {
+      opacity: 0,
+      y: 30,
+      stagger: 0.1,
+      duration: 0.9,
+      ease: EASE_SOFT,
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: stage,
+        start: () => `top+=${(i / total) * scrollDist() * 0.95} top`,
+        toggleActions: 'play none none reverse',
+      },
+    });
+    if (num) {
+      gsap.from(num, {
+        opacity: 0,
+        scale: 0.7,
+        duration: 0.8,
+        ease: 'back.out(1.6)',
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: stage,
+          start: () => `top+=${(i / total) * scrollDist() * 0.92} top`,
+          toggleActions: 'play none none reverse',
+        },
+      });
+    }
+  });
+}
+
+/* ============================================================
+   CONTACT — 3D TILT PANEL + ANIMATED WAVE
+   Mouse-tracked rotateX/rotateY on the contact card; an
+   SVG sine wave at the bottom reacts to cursor X for
+   amplitude/frequency.
+   ============================================================ */
+function initContactTilt() {
+  const panel = document.querySelector('.contact-tilt');
+  if (panel) {
+    const MAX = 5;
+    let raf = null, tx = 0, ty = 0;
+    const apply = () => {
+      gsap.to(panel, { rotateY: tx, rotateX: ty, duration: 0.7, ease: EASE_SOFT, overwrite: 'auto' });
+      raf = null;
+    };
+    panel.addEventListener('mousemove', (e) => {
+      const r = panel.getBoundingClientRect();
+      tx =  ((e.clientX - r.left - r.width  / 2) / (r.width  / 2)) * MAX;
+      ty = -((e.clientY - r.top  - r.height / 2) / (r.height / 2)) * MAX;
+      if (!raf) raf = requestAnimationFrame(apply);
+    });
+    panel.addEventListener('mouseleave', () => {
+      tx = 0; ty = 0;
+      gsap.to(panel, { rotateY: 0, rotateX: 0, duration: 1.0, ease: 'elastic.out(1, 0.55)' });
+    });
+  }
+
+  /* Animated wave footer signature */
+  const wave = document.querySelector('.contact-wave path');
+  if (wave) {
+    let mx = 0.5, my = 0.5;
+    window.addEventListener('mousemove', (e) => {
+      mx = e.clientX / window.innerWidth;
+      my = e.clientY / window.innerHeight;
+    }, { passive: true });
+
+    const W = 1200, H = 120, SEG = 48;
+    function tick() {
+      const t   = performance.now() / 1000;
+      const amp = 12 + mx * 28;       /* cursor-X drives amplitude */
+      const frq = 1.2 + my * 1.4;     /* cursor-Y drives frequency */
+      let d = `M 0 ${H / 2}`;
+      for (let i = 1; i <= SEG; i++) {
+        const x = (W / SEG) * i;
+        const y = H / 2 + Math.sin((i / SEG) * Math.PI * 2 * frq + t * 1.6) * amp;
+        d += ` L ${x.toFixed(1)} ${y.toFixed(2)}`;
+      }
+      wave.setAttribute('d', d);
+      requestAnimationFrame(tick);
+    }
+    tick();
+  }
+}
+
+/* ============================================================
+   PAGE HEADING TEXT ANIMATION — inner pages only
+   Wraps each word of the page H1 in a clip mask, slides up
+   on load. Skipped on the homepage (which has its own hero
+   reveal driven by SplitText on .hero-name).
+   ============================================================ */
+function initPageHeadingReveal() {
+  if ((document.body.dataset.route || 'home') === 'home') return;
+
+  const selectors = [
+    '.page-hero-title',
+    '.casestudy-title',
+    '.contact-heading',
+  ];
+  const heading = document.querySelector(selectors.join(', '));
+  if (!heading || heading.dataset.animated === '1') return;
+  heading.dataset.animated = '1';
+
+  /* Walk child nodes; each <br> becomes a real <br>, each text
+     node becomes a sequence of word-masks. Preserves line breaks. */
+  const frag = document.createDocumentFragment();
+  heading.childNodes.forEach((node) => {
+    if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'BR') {
+      frag.appendChild(document.createElement('br'));
+      return;
+    }
+    if (node.nodeType !== Node.TEXT_NODE) return;
+    const tokens = node.textContent.split(/(\s+)/);
+    tokens.forEach((tok) => {
+      if (!tok) return;
+      if (/^\s+$/.test(tok)) {
+        const sp = document.createElement('span');
+        sp.className = 'page-heading-word--space';
+        sp.innerHTML = '&nbsp;';
+        frag.appendChild(sp);
+        return;
+      }
+      const mask = document.createElement('span');
+      mask.className = 'page-heading-anim';
+      const word = document.createElement('span');
+      word.className = 'page-heading-word';
+      word.textContent = tok;
+      mask.appendChild(word);
+      frag.appendChild(mask);
+    });
+  });
+  heading.innerHTML = '';
+  heading.appendChild(frag);
+
+  const words = heading.querySelectorAll('.page-heading-word');
+  gsap.set(words, { yPercent: 110 });
+  gsap.to(words, {
+    yPercent: 0,
+    duration: 0.95,
+    ease: EASE,
+    stagger: 0.07,
+    delay: 0.15,
+  });
+}
+
+/* ============================================================
    ROW WRAPPER REVEAL — generic scroll-in for page elements
    (transform + opacity, mirrors .row-wrapper .row-inner pattern)
    ============================================================ */
@@ -686,22 +946,27 @@ function initPageTransitions() {
   }
 
   /* Exposed so MAIN INIT can fire it after the preloader exits */
-  window.__playIntroReveal = () => {
-    if (!currentPanel) return;
-    if (currentPanel.dataset.played === '1') return;
+  window.__playIntroReveal = (onDone) => {
+    if (!currentPanel) { onDone?.(); return; }
+    if (currentPanel.dataset.played === '1') { onDone?.(); return; }
     currentPanel.dataset.played = '1';
 
+    /* Hold the cover for a beat so the eye registers the panel,
+       then perform the exit wipe. Prevents the "cut" feeling
+       on heavy/contrasty routes (e.g. black works panel → cream page). */
     gsap.to(currentPanel, {
       clipPath: states.exit,
       webkitClipPath: states.exit,
-      duration: 1.05,
+      duration: 1.15,
       ease: EASE,
-      delay: 0.05,
+      delay: 0.28,
       onComplete: () => {
         overlay.classList.remove('is-active');
+        document.body.classList.add('pt-revealed');
         Object.values(panels).forEach((p) => {
           gsap.set(p, { clipPath: 'inset(0% 0% 100% 0%)', webkitClipPath: 'inset(0% 0% 100% 0%)' });
         });
+        onDone?.();
       },
     });
   };
@@ -738,8 +1003,15 @@ function initPageTransitions() {
       const s = PANEL_STATES[targetRoute];
 
       let navigated = false;
-      const go = () => { if (navigated) return; navigated = true; window.location.href = href; };
+      const go = () => {
+        if (navigated) return;
+        navigated = true;
+        /* Tell the next page: skip the preloader, just play reveal */
+        try { sessionStorage.setItem('pt:from', currentRoute); } catch (_) {}
+        window.location.href = href;
+      };
 
+      document.body.classList.remove('pt-revealed');
       overlay.classList.add('is-active');
       /* Place the chosen panel above the others */
       Object.values(panels).forEach((p) => p.style.zIndex = '1');
@@ -796,6 +1068,7 @@ document.addEventListener('DOMContentLoaded', () => {
        clip-path wipe is visible the moment the preloader lifts. */
     if (window.__playIntroReveal) window.__playIntroReveal();
     try { revealHero(); } catch (_) { /* SplitText CDN may block */ }
+    initPageHeadingReveal();
     initHeroScroll();
     initIntroReveal();
     initAboutReveal();
@@ -804,12 +1077,24 @@ document.addEventListener('DOMContentLoaded', () => {
     initHoverReveal();
     initMagnetic();
     initProjectReveal();
+    initProjectsStack();
+    initCasestudyHorizontal();
+    initContactTilt();
     initSectionHeaders();
     initRowReveals();
     ScrollTrigger.refresh();
   };
 
-  if (isMobile) {
+  /* Skip the preloader if this load came from an in-site
+     transition — the cover panel is already on screen, we
+     just need to reveal it out smoothly. */
+  let cameFromTransition = false;
+  try { cameFromTransition = !!sessionStorage.getItem('pt:from'); } catch (_) {}
+  if (cameFromTransition) {
+    try { sessionStorage.removeItem('pt:from'); } catch (_) {}
+  }
+
+  if (isMobile || cameFromTransition) {
     const preloaderEl = document.getElementById('preloader');
     if (preloaderEl) preloaderEl.style.display = 'none';
     runAnimations();

@@ -77,97 +77,118 @@
   <main class="projects-main">
 
     <!-- Hero -->
-    <div class="page-hero">
+    <div class="page-hero page-hero--projects">
+      <span class="page-hero-eyebrow display-font">04 · SELECTED WORKS · 2024–26</span>
       <h1 class="page-hero-title display-font">MY<br>PROJECTS</h1>
       <p class="page-hero-desc">A collection spanning web development, blockchain, and mobile — each project a unique challenge and solution.</p>
+      <div class="page-hero-scroll-hint">
+        <span class="scroll-hint-line"></span>
+        <span class="scroll-hint-text">SCROLL TO STACK</span>
+      </div>
     </div>
 
-    <!-- Projects Grid -->
-    <section class="projects-grid">
+    <!-- Sticky-stack project cards -->
+    <section class="projects-stack">
 
-      <div class="project-card">
-        <div class="project-image">
-          <img src="Images/recruitment bg.jpg" alt="Pekamy Freshminds" class="project-img">
+      <article class="project-stack-card" data-bg="cream">
+        <div class="psc-image-wrap">
+          <img src="Images/recruitment bg.jpg" alt="Pekamy Freshminds" class="psc-img">
+          <span class="psc-overlay"></span>
         </div>
-        <div class="project-content">
-          <span class="project-category">Web Development</span>
-          <h3 class="project-title">Pekamy Freshminds</h3>
-          <p class="project-description">A modern recruitment platform connecting top talent with leading companies. Features advanced candidate matching, interview scheduling, and employer dashboards.</p>
-          <div class="project-tech">
-            <span class="tech-tag">HTML/CSS</span>
-            <span class="tech-tag">JavaScript</span>
-            <span class="tech-tag">React</span>
-            <span class="tech-tag">Node.js</span>
+        <div class="psc-content">
+          <div class="psc-meta-row">
+            <span class="psc-num display-font">01 / 04</span>
+            <span class="psc-cat">WEB · SAAS</span>
           </div>
-          <div class="project-links">
-            <a href="https://www.pekamyfreshminds.com/" target="_blank" rel="noopener" class="project-link">Live Demo</a>
-            <a href="casestudy.html#Pekamy Freshminds" class="project-link">Case Study</a>
+          <h2 class="psc-title display-font"><span class="psc-title-mask"><span class="psc-title-word">Pekamy</span></span><br><span class="psc-title-mask"><span class="psc-title-word">Freshminds</span></span></h2>
+          <p class="psc-desc">A modern recruitment platform connecting top talent with leading companies. Features advanced candidate matching, interview scheduling, and employer dashboards.</p>
+          <div class="psc-tags">
+            <span class="psc-tag">HTML/CSS</span>
+            <span class="psc-tag">JavaScript</span>
+            <span class="psc-tag">React</span>
+            <span class="psc-tag">Node.js</span>
+          </div>
+          <div class="psc-links">
+            <a href="https://www.pekamyfreshminds.com/" target="_blank" rel="noopener" class="psc-link magnet"><span>LIVE DEMO</span><span class="psc-link-arrow">↗</span></a>
+            <a href="casestudy.html#Pekamy Freshminds" class="psc-link psc-link--ghost magnet"><span>CASE STUDY</span><span class="psc-link-arrow">→</span></a>
           </div>
         </div>
-      </div>
+      </article>
 
-      <div class="project-card">
-        <div class="project-image">
-          <img src="Images/car bg.jpg" alt="Everyday Motors" class="project-img">
+      <article class="project-stack-card" data-bg="brown">
+        <div class="psc-image-wrap">
+          <img src="Images/car bg.jpg" alt="Everyday Motors" class="psc-img">
+          <span class="psc-overlay"></span>
         </div>
-        <div class="project-content">
-          <span class="project-category">Web Development</span>
-          <h3 class="project-title">Everyday Motors</h3>
-          <p class="project-description">A comprehensive car dealership website with inventory management, vehicle search filters, financing calculators, and customer relationship management.</p>
-          <div class="project-tech">
-            <span class="tech-tag">HTML/CSS</span>
-            <span class="tech-tag">JavaScript</span>
-            <span class="tech-tag">PHP</span>
-            <span class="tech-tag">MySQL</span>
+        <div class="psc-content">
+          <div class="psc-meta-row">
+            <span class="psc-num display-font">02 / 04</span>
+            <span class="psc-cat">WEB · COMMERCE</span>
           </div>
-          <div class="project-links">
-            <a href="#" class="project-link">Live Demo</a>
-            <a href="casestudy.html#Everyday Motors" class="project-link">Case Study</a>
+          <h2 class="psc-title display-font"><span class="psc-title-mask"><span class="psc-title-word">Everyday</span></span><br><span class="psc-title-mask"><span class="psc-title-word">Motors</span></span></h2>
+          <p class="psc-desc">A comprehensive car dealership website with inventory management, vehicle search filters, financing calculators, and customer relationship management.</p>
+          <div class="psc-tags">
+            <span class="psc-tag">HTML/CSS</span>
+            <span class="psc-tag">JavaScript</span>
+            <span class="psc-tag">PHP</span>
+            <span class="psc-tag">MySQL</span>
+          </div>
+          <div class="psc-links">
+            <a href="#" class="psc-link magnet"><span>LIVE DEMO</span><span class="psc-link-arrow">↗</span></a>
+            <a href="casestudy.html#Everyday Motors" class="psc-link psc-link--ghost magnet"><span>CASE STUDY</span><span class="psc-link-arrow">→</span></a>
           </div>
         </div>
-      </div>
+      </article>
 
-      <div class="project-card">
-        <div class="project-image">
-          <img src="Images/solanabg.jpg" alt="Solana Copy Trading Bot" class="project-img">
+      <article class="project-stack-card" data-bg="black">
+        <div class="psc-image-wrap">
+          <img src="Images/solanabg.jpg" alt="Solana Copy Trading Bot" class="psc-img">
+          <span class="psc-overlay"></span>
         </div>
-        <div class="project-content">
-          <span class="project-category">Blockchain &amp; Bot Development</span>
-          <h3 class="project-title">Solana Copy Trading Bot</h3>
-          <p class="project-description">An automated trading bot for the Solana blockchain that replicates successful traders' strategies in real-time with risk management features.</p>
-          <div class="project-tech">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">Solana SDK</span>
-            <span class="tech-tag">Web3</span>
-            <span class="tech-tag">API Integration</span>
+        <div class="psc-content">
+          <div class="psc-meta-row">
+            <span class="psc-num display-font">03 / 04</span>
+            <span class="psc-cat">BLOCKCHAIN · BOT</span>
           </div>
-          <div class="project-links">
-            <a href="https://github.com/Zikrypt" target="_blank" rel="noopener" class="project-link">GitHub</a>
-            <a href="casestudy.html#Solana Copy Trading Bot" class="project-link">Documentation</a>
+          <h2 class="psc-title display-font"><span class="psc-title-mask"><span class="psc-title-word">Solana</span></span><br><span class="psc-title-mask"><span class="psc-title-word">Copy Bot</span></span></h2>
+          <p class="psc-desc">An automated trading bot for the Solana blockchain that replicates successful traders' strategies in real-time with risk management features.</p>
+          <div class="psc-tags">
+            <span class="psc-tag">Python</span>
+            <span class="psc-tag">Solana SDK</span>
+            <span class="psc-tag">Web3</span>
+            <span class="psc-tag">API</span>
+          </div>
+          <div class="psc-links">
+            <a href="https://github.com/Zikrypt" target="_blank" rel="noopener" class="psc-link magnet"><span>GITHUB</span><span class="psc-link-arrow">↗</span></a>
+            <a href="casestudy.html#Solana Copy Trading Bot" class="psc-link psc-link--ghost magnet"><span>DOCS</span><span class="psc-link-arrow">→</span></a>
           </div>
         </div>
-      </div>
+      </article>
 
-      <div class="project-card">
-        <div class="project-image">
-          <img src="Images/vpnbg.jpg" alt="Secure VPN Application" class="project-img">
+      <article class="project-stack-card" data-bg="yellow">
+        <div class="psc-image-wrap">
+          <img src="Images/vpnbg.jpg" alt="Secure VPN Application" class="psc-img">
+          <span class="psc-overlay"></span>
         </div>
-        <div class="project-content">
-          <span class="project-category">Mobile App Development</span>
-          <h3 class="project-title">Secure VPN Application</h3>
-          <p class="project-description">A cross-platform VPN application providing secure and private internet access with multiple server locations, kill switch functionality, and zero-log policy.</p>
-          <div class="project-tech">
-            <span class="tech-tag">React Native</span>
-            <span class="tech-tag">Node.js</span>
-            <span class="tech-tag">WireGuard</span>
-            <span class="tech-tag">AWS</span>
+        <div class="psc-content">
+          <div class="psc-meta-row">
+            <span class="psc-num display-font">04 / 04</span>
+            <span class="psc-cat">MOBILE · SECURITY</span>
           </div>
-          <div class="project-links">
-            <a href="https://play.google.com/store/apps/details?id=com.freevpnplanet" target="_blank" rel="noopener" class="project-link">Play Store</a>
-            <a href="casestudy.html#Secure VPN" class="project-link">Case Study</a>
+          <h2 class="psc-title display-font"><span class="psc-title-mask"><span class="psc-title-word">Secure</span></span><br><span class="psc-title-mask"><span class="psc-title-word">VPN App</span></span></h2>
+          <p class="psc-desc">A cross-platform VPN application providing secure and private internet access with multiple server locations, kill switch functionality, and zero-log policy.</p>
+          <div class="psc-tags">
+            <span class="psc-tag">React Native</span>
+            <span class="psc-tag">Node.js</span>
+            <span class="psc-tag">WireGuard</span>
+            <span class="psc-tag">AWS</span>
+          </div>
+          <div class="psc-links">
+            <a href="https://play.google.com/store/apps/details?id=com.freevpnplanet" target="_blank" rel="noopener" class="psc-link magnet"><span>PLAY STORE</span><span class="psc-link-arrow">↗</span></a>
+            <a href="casestudy.html#Secure VPN" class="psc-link psc-link--ghost magnet"><span>CASE STUDY</span><span class="psc-link-arrow">→</span></a>
           </div>
         </div>
-      </div>
+      </article>
 
     </section>
 

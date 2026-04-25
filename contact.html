@@ -75,54 +75,77 @@
 
   <!-- Main Content -->
   <main class="contact-main">
-    <div class="contact-inner">
 
-      <!-- Left: heading + socials -->
-      <div>
-        <h1 class="contact-heading display-font">GET IN<br>TOUCH.</h1>
-        <p class="contact-subtext">Always open to new projects, creative ideas, or just a good conversation about tech and building the future.</p>
+    <!-- Background marquee word -->
+    <div class="contact-bg-word display-font" aria-hidden="true">HELLO · SAY HI · LET'S BUILD · HELLO · SAY HI · LET'S BUILD ·&nbsp;</div>
 
-        <div class="contact-socials">
-          <a href="mailto:zikoraokelosam@gmail.com" class="contact-social-link">zikoraokelosam@gmail.com</a>
-          <a href="https://wa.me/2349011172838" class="contact-social-link" target="_blank" rel="noopener">WhatsApp — +234 901 117 2838</a>
-          <a href="https://www.instagram.com/_zikora.__?igsh=NmtidXp3OGE3b2Mw" class="contact-social-link" target="_blank" rel="noopener">Instagram</a>
-          <a href="https://x.com/HACKWITHZIK?t=9xLb6f-1sVy4CgdFp2sOWw&s=09" class="contact-social-link" target="_blank" rel="noopener">Twitter&thinsp;/&thinsp;X</a>
-          <a href="https://github.com/Zikrypt" class="contact-social-link" target="_blank" rel="noopener">GitHub</a>
-          <a href="https://www.linkedin.com/in/zikora-okelo-8818252a8" class="contact-social-link" target="_blank" rel="noopener">LinkedIn</a>
-          <a href="https://www.snapchat.com/add/ziggy005?share_id=0yUR2HupNZg&locale=en-NG" class="contact-social-link" target="_blank" rel="noopener">Snapchat</a>
+    <div class="contact-stage">
+      <div class="contact-tilt-wrap">
+        <div class="contact-tilt">
+
+          <header class="contact-tilt-header">
+            <span class="contact-eyebrow display-font">CHAPTER 04 · CONTACT</span>
+            <h1 class="contact-heading display-font">GET IN<br>TOUCH.</h1>
+            <p class="contact-subtext">Always open to new projects, creative ideas, or just a good conversation about tech and building the future.</p>
+          </header>
+
+          <div class="contact-grid">
+
+            <!-- Left: socials with magnet links -->
+            <div class="contact-side">
+              <span class="contact-side-label display-font">REACH ME</span>
+              <div class="contact-socials">
+                <a href="mailto:zikoraokelosam@gmail.com" class="contact-social-link magnet"><span class="csl-text">zikoraokelosam@gmail.com</span><span class="csl-arrow">→</span></a>
+                <a href="https://wa.me/2349011172838" class="contact-social-link magnet" target="_blank" rel="noopener"><span class="csl-text">WhatsApp · +234 901 117 2838</span><span class="csl-arrow">↗</span></a>
+                <a href="https://www.instagram.com/_zikora.__?igsh=NmtidXp3OGE3b2Mw" class="contact-social-link magnet" target="_blank" rel="noopener"><span class="csl-text">Instagram</span><span class="csl-arrow">↗</span></a>
+                <a href="https://x.com/HACKWITHZIK?t=9xLb6f-1sVy4CgdFp2sOWw&s=09" class="contact-social-link magnet" target="_blank" rel="noopener"><span class="csl-text">Twitter / X</span><span class="csl-arrow">↗</span></a>
+                <a href="https://github.com/Zikrypt" class="contact-social-link magnet" target="_blank" rel="noopener"><span class="csl-text">GitHub</span><span class="csl-arrow">↗</span></a>
+                <a href="https://www.linkedin.com/in/zikora-okelo-8818252a8" class="contact-social-link magnet" target="_blank" rel="noopener"><span class="csl-text">LinkedIn</span><span class="csl-arrow">↗</span></a>
+                <a href="https://www.snapchat.com/add/ziggy005?share_id=0yUR2HupNZg&locale=en-NG" class="contact-social-link magnet" target="_blank" rel="noopener"><span class="csl-text">Snapchat</span><span class="csl-arrow">↗</span></a>
+              </div>
+            </div>
+
+            <!-- Right: form -->
+            <div class="contact-form-side">
+              <span class="contact-side-label display-font">DROP A MESSAGE</span>
+              <form class="contact-form" action="https://formspree.io/f/mvgwyavy" method="POST">
+                <input type="hidden" name="_subject" value="New message from Zikora's Portfolio">
+
+                <div class="form-field">
+                  <label for="name">01 — Full Name</label>
+                  <input type="text" id="name" name="name" placeholder="Your name" required>
+                </div>
+
+                <div class="form-field">
+                  <label for="email">02 — Email Address</label>
+                  <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                </div>
+
+                <div class="form-field">
+                  <label for="subject">03 — Subject</label>
+                  <input type="text" id="subject" name="subject" placeholder="What's this about?" required>
+                </div>
+
+                <div class="form-field">
+                  <label for="message">04 — Message</label>
+                  <textarea id="message" name="message" placeholder="Tell me more..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn magnet"><span>SEND MESSAGE</span><span class="submit-arrow">→</span></button>
+              </form>
+            </div>
+
+          </div>
+
         </div>
       </div>
 
-      <!-- Right: form -->
-      <div>
-        <form class="contact-form" action="https://formspree.io/f/mvgwyavy" method="POST">
-          <input type="hidden" name="_subject" value="New message from Zikora's Portfolio">
-
-          <div class="form-field">
-            <label for="name">Full Name</label>
-            <input type="text" id="name" name="name" placeholder="Your name" required>
-          </div>
-
-          <div class="form-field">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" placeholder="your@email.com" required>
-          </div>
-
-          <div class="form-field">
-            <label for="subject">Subject</label>
-            <input type="text" id="subject" name="subject" placeholder="What's this about?" required>
-          </div>
-
-          <div class="form-field">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" placeholder="Tell me more..." required></textarea>
-          </div>
-
-          <button type="submit" class="submit-btn magnet">SEND MESSAGE</button>
-        </form>
-      </div>
-
+      <!-- Animated cursor-reactive signature wave -->
+      <svg class="contact-wave" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M 0 60 L 1200 60" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+      </svg>
     </div>
+
   </main>
 
   <!-- Footer -->
