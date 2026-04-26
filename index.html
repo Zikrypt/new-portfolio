@@ -83,7 +83,74 @@
         <span class="nav-link-inner"><span>CONTACT</span><span>CONTACT</span></span>
       </a>
     </div>
+
+    <button class="menuToggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="menuOverlay">
+      <div class="menuToggleIcon"></div>
+      <div class="hamburger">
+        <div class="menuBar" data-position="top"></div>
+        <div class="menuBar" data-position="bottom"></div>
+      </div>
+      <div class="menuCopy"><p>Menu</p></div>
+    </button>
   </header>
+
+  <!-- Fullscreen menu overlay -->
+  <nav class="menu-overlay" id="menuOverlay" aria-hidden="true">
+    <div class="menu-overlay-grid">
+      <ul class="menu-links">
+        <li class="menu-link-item">
+          <a href="index.html" class="menu-link" data-route="home" style="--ml-color: var(--mt-home);">
+            <span class="ml-num">01 /</span>
+            <span class="ml-name">Home</span>
+            <span class="ml-arrow display-font">→</span>
+          </a>
+        </li>
+        <li class="menu-link-item">
+          <a href="projects.html" class="menu-link" data-route="works" style="--ml-color: var(--mt-works);">
+            <span class="ml-num">02 /</span>
+            <span class="ml-name">Works</span>
+            <span class="ml-arrow display-font">→</span>
+          </a>
+        </li>
+        <li class="menu-link-item">
+          <a href="casestudy.html" class="menu-link" data-route="study" style="--ml-color: var(--mt-study);">
+            <span class="ml-num">03 /</span>
+            <span class="ml-name">Case&nbsp;Study</span>
+            <span class="ml-arrow display-font">→</span>
+          </a>
+        </li>
+        <li class="menu-link-item">
+          <a href="contact.html" class="menu-link" data-route="contact" style="--ml-color: var(--mt-contact);">
+            <span class="ml-num">04 /</span>
+            <span class="ml-name">Contact</span>
+            <span class="ml-arrow display-font">→</span>
+          </a>
+        </li>
+      </ul>
+
+      <aside class="menu-aside">
+        <div class="menu-aside-block">
+          <span class="menu-aside-label">— Currently</span>
+          <p class="menu-aside-text">Building Pekamy Freshminds v2 from Lagos. Open for Q3 / Q4 2026 collaborations across web, mobile and on-chain.</p>
+        </div>
+        <div class="menu-aside-block">
+          <span class="menu-aside-label">— Channels</span>
+          <div class="menu-socials">
+            <a href="mailto:zikoraokelosam@gmail.com" class="menu-social">Email</a>
+            <a href="https://github.com/Zikrypt" target="_blank" rel="noopener" class="menu-social">Github</a>
+            <a href="https://www.linkedin.com/in/zikora-okelo-8818252a8" target="_blank" rel="noopener" class="menu-social">LinkedIn</a>
+            <a href="https://x.com/HACKWITHZIK" target="_blank" rel="noopener" class="menu-social">Twitter</a>
+            <a href="https://www.instagram.com/_zikora.__?igsh=NmtidXp3OGE3b2Mw" target="_blank" rel="noopener" class="menu-social">Instagram</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="menu-footer">
+      <span>LAGOS · NG &nbsp;/&nbsp; 6.5244°N · 3.3792°E</span>
+      <span>©2026 OKELO ZIKORA</span>
+    </div>
+  </nav>
 
   <!-- ─── SMOOTH SCROLL WRAPPER ───────────────────────────── -->
   <div id="smooth-wrapper">
@@ -437,47 +504,73 @@
       </div>
     </section>
 
-    <!-- ─── FOOTER ─────────────────────────────────────────── -->
-    <footer class="site-footer">
+    <!-- ─── FOOTER · 2026 ─────────────────────────────────── -->
+    <footer class="site-footer footer-2026">
+      <div class="ftr-bg" aria-hidden="true"></div>
 
-      <div class="footer-upper">
-        <div class="footer-col">
-          <p class="footer-col-label">SOCIAL</p>
-          <a href="https://www.instagram.com/_zikora.__?igsh=NmtidXp3OGE3b2Mw"
-             class="footer-link" target="_blank" rel="noopener">INSTAGRAM</a>
-          <a href="https://x.com/HACKWITHZIK"
-             class="footer-link" target="_blank" rel="noopener">TWITTER&thinsp;/&thinsp;X</a>
-          <a href="https://github.com/Zikrypt"
-             class="footer-link" target="_blank" rel="noopener">GITHUB</a>
-          <a href="https://www.linkedin.com/in/zikora-okelo-8818252a8"
-             class="footer-link" target="_blank" rel="noopener">LINKEDIN</a>
-        </div>
-        <div class="footer-center-col">
-          <a href="#hero" class="footer-back-top">BACK TO TOP ↑</a>
-        </div>
-        <div class="footer-col footer-col--right">
-          <p class="footer-col-label">NAVIGATION</p>
-          <a href="index.html" class="footer-link">HOME</a>
-          <a href="projects.html" class="footer-link">WORKS</a>
-          <a href="casestudy.html" class="footer-link">CASE STUDY</a>
-          <a href="contact.html" class="footer-link">CONTACT</a>
-        </div>
-      </div>
+      <section class="ftr-hero">
+        <span class="ftr-eyebrow">[ THE END · OR THE START ]</span>
+        <h2 class="ftr-headline display-font">
+          <span class="ftr-line">LET'S BUILD</span>
+          <span class="ftr-line ftr-line--italic">something <em>bold.</em></span>
+        </h2>
+        <a href="contact.html" class="ftr-cta">
+          <span class="ftr-cta-label">START A PROJECT</span>
+          <span class="ftr-cta-circle" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="9 5 19 5 19 15"/></svg>
+          </span>
+        </a>
+      </section>
 
-      <div class="footer-marquee-wrap">
-        <div class="footer-marquee-track">
-          <span class="footer-marquee-text display-font">LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          <span class="footer-marquee-text display-font" aria-hidden="true">LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <a class="ftr-email" href="mailto:zikoraokelosam@gmail.com">
+        <span class="ftr-email-label">DROP A LINE</span>
+        <span class="ftr-email-addr display-font">zikoraokelosam@gmail.com</span>
+        <span class="ftr-email-icon">↗</span>
+      </a>
+
+      <div class="ftr-marquee" aria-hidden="true">
+        <div class="ftr-marquee-track">
+          <span>★ LET'S BUILD ★ LET'S BUILD ★ LET'S BUILD ★ LET'S BUILD ★ LET'S BUILD ★ LET'S BUILD ★</span>
+          <span>★ LET'S BUILD ★ LET'S BUILD ★ LET'S BUILD ★ LET'S BUILD ★ LET'S BUILD ★ LET'S BUILD ★</span>
         </div>
       </div>
 
-      <div class="footer-bottom">
-        <span class="footer-bottom-text">LAGOS,&thinsp;NG</span>
-        <span class="footer-bottom-text" id="footer-time">--:-- --</span>
-        <span class="footer-bottom-text">6.5244°N&thinsp;3.3792°E</span>
-        <span class="footer-bottom-text">©2026 ALL RIGHTS RESERVED</span>
+      <div class="ftr-cols">
+        <div class="ftr-col">
+          <span class="ftr-col-label">— SIGNATURE</span>
+          <p class="ftr-sig">Okelo Zikora</p>
+          <p class="ftr-sig-sub">Full-stack developer · Web3 builder · crafting from Lagos since 2022.</p>
+          <span class="ftr-status"><span class="ftr-status-dot"></span> AVAILABLE Q3 / Q4 · 2026</span>
+        </div>
+        <div class="ftr-col">
+          <span class="ftr-col-label">— SITEMAP</span>
+          <a href="index.html" class="ftr-nav">Home <span>↗</span></a>
+          <a href="projects.html" class="ftr-nav">Works <span>↗</span></a>
+          <a href="casestudy.html" class="ftr-nav">Case Study <span>↗</span></a>
+          <a href="contact.html" class="ftr-nav">Contact <span>↗</span></a>
+        </div>
+        <div class="ftr-col">
+          <span class="ftr-col-label">— ELSEWHERE</span>
+          <a class="ftr-nav" target="_blank" rel="noopener" href="https://github.com/Zikrypt">Github <span>↗</span></a>
+          <a class="ftr-nav" target="_blank" rel="noopener" href="https://www.linkedin.com/in/zikora-okelo-8818252a8">LinkedIn <span>↗</span></a>
+          <a class="ftr-nav" target="_blank" rel="noopener" href="https://x.com/HACKWITHZIK">Twitter / X <span>↗</span></a>
+          <a class="ftr-nav" target="_blank" rel="noopener" href="https://www.instagram.com/_zikora.__?igsh=NmtidXp3OGE3b2Mw">Instagram <span>↗</span></a>
+        </div>
+        <div class="ftr-col ftr-col--time">
+          <span class="ftr-col-label">— LIVE</span>
+          <div class="ftr-clock display-font" id="footer-time">--:-- --</div>
+          <div class="ftr-coords">LAGOS · NG &nbsp;/&nbsp; 6.5244°N · 3.3792°E</div>
+          <a href="#" class="ftr-top">BACK TO TOP <span>↑</span></a>
+        </div>
       </div>
 
+      <div class="ftr-wordmark display-font" aria-hidden="true">ZIKORA</div>
+
+      <div class="ftr-legal">
+        <span>© 2026 · OKELO ZIKORA — ALL RIGHTS RESERVED</span>
+        <span>DESIGNED &amp; BUILT IN LAGOS · NIGERIA 🌴</span>
+        <span>v.2026.04 · LAST UPDATE APRIL 2026</span>
+      </div>
     </footer>
 
   </div><!-- /#smooth-wrapper -->

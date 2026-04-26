@@ -71,15 +71,86 @@
         <span class="nav-link-inner"><span>CONTACT</span><span>CONTACT</span></span>
       </a>
     </div>
+
+    <button class="menuToggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="menuOverlay">
+      <div class="menuToggleIcon"></div>
+      <div class="hamburger">
+        <div class="menuBar" data-position="top"></div>
+        <div class="menuBar" data-position="bottom"></div>
+      </div>
+      <div class="menuCopy"><p>Menu</p></div>
+    </button>
   </header>
+
+  <nav class="menu-overlay" id="menuOverlay" aria-hidden="true">
+    <div class="menu-overlay-grid">
+      <ul class="menu-links">
+        <li class="menu-link-item"><a href="index.html" class="menu-link" data-route="home" style="--ml-color: var(--mt-home);"><span class="ml-num">01 /</span><span class="ml-name">Home</span><span class="ml-arrow display-font">→</span></a></li>
+        <li class="menu-link-item"><a href="projects.html" class="menu-link" data-route="works" style="--ml-color: var(--mt-works);"><span class="ml-num">02 /</span><span class="ml-name">Works</span><span class="ml-arrow display-font">→</span></a></li>
+        <li class="menu-link-item"><a href="casestudy.html" class="menu-link" data-route="study" style="--ml-color: var(--mt-study);"><span class="ml-num">03 /</span><span class="ml-name">Case&nbsp;Study</span><span class="ml-arrow display-font">→</span></a></li>
+        <li class="menu-link-item"><a href="contact.html" class="menu-link" data-route="contact" style="--ml-color: var(--mt-contact);"><span class="ml-num">04 /</span><span class="ml-name">Contact</span><span class="ml-arrow display-font">→</span></a></li>
+      </ul>
+      <aside class="menu-aside">
+        <div class="menu-aside-block">
+          <span class="menu-aside-label">— Currently</span>
+          <p class="menu-aside-text">Building Pekamy Freshminds v2 from Lagos. Open for Q3 / Q4 2026 collaborations across web, mobile and on-chain.</p>
+        </div>
+        <div class="menu-aside-block">
+          <span class="menu-aside-label">— Channels</span>
+          <div class="menu-socials">
+            <a href="mailto:zikoraokelosam@gmail.com" class="menu-social">Email</a>
+            <a href="https://github.com/Zikrypt" target="_blank" rel="noopener" class="menu-social">Github</a>
+            <a href="https://www.linkedin.com/in/zikora-okelo-8818252a8" target="_blank" rel="noopener" class="menu-social">LinkedIn</a>
+            <a href="https://x.com/HACKWITHZIK" target="_blank" rel="noopener" class="menu-social">Twitter</a>
+            <a href="https://www.instagram.com/_zikora.__?igsh=NmtidXp3OGE3b2Mw" target="_blank" rel="noopener" class="menu-social">Instagram</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <div class="menu-footer">
+      <span>LAGOS · NG &nbsp;/&nbsp; 6.5244°N · 3.3792°E</span>
+      <span>©2026 OKELO ZIKORA</span>
+    </div>
+  </nav>
 
   <!-- Main Content -->
   <main class="casestudy-main">
 
-    <div class="casestudy-hero">
+    <div class="casestudy-hero ph-2026">
+      <div class="ph-bg ph-bg--grid" aria-hidden="true"></div>
+      <span class="ph-ghost display-font" aria-hidden="true">CS</span>
+
+      <div class="ph-top">
+        <span class="ph-status">
+          <span class="ph-status-dot ph-status-dot--brown"></span>
+          <span>04 CHAPTERS · LIVE READ</span>
+        </span>
+        <span class="ph-coords">VOL · I &nbsp;/&nbsp; ED · 2026</span>
+      </div>
+
       <span class="cs-eyebrow display-font">04 CHAPTERS · DOCS &amp; PROCESS</span>
-      <h1 class="casestudy-title display-font">CASE STUDY<br>&amp; DOCS</h1>
+      <h1 class="casestudy-title display-font ph-title-split">CASE STUDY<br>&amp; DOCS<sup class="ph-asterisk">→</sup></h1>
       <p class="page-hero-desc">Every project tells a story — the process, the decisions, and the real-world impact behind each finished product.</p>
+
+      <div class="ph-meta-strip ph-meta-strip--cs">
+        <div class="ph-meta-cell">
+          <span class="ph-meta-label">CHAPTERS</span>
+          <span class="ph-meta-val display-font">04</span>
+        </div>
+        <div class="ph-meta-cell">
+          <span class="ph-meta-label">FORMAT</span>
+          <span class="ph-meta-val display-font">PINNED <em>·</em> SCROLL</span>
+        </div>
+        <div class="ph-meta-cell">
+          <span class="ph-meta-label">DIRECTION</span>
+          <span class="ph-meta-val display-font">EAST <em>→</em></span>
+        </div>
+        <div class="ph-meta-cell">
+          <span class="ph-meta-label">READ TIME</span>
+          <span class="ph-meta-val display-font">~6 MIN</span>
+        </div>
+      </div>
+
       <div class="cs-scroll-hint">
         <span class="scroll-hint-line"></span>
         <span class="scroll-hint-text">SCROLL — CHAPTERS MOVE HORIZONTALLY</span>
@@ -93,8 +164,19 @@
 
         <section class="cs-panel cs-panel--brown" id="Pekamy Freshminds">
           <span class="cs-panel-num display-font">01</span>
+          <div class="cs-chapter-strip">
+            <span class="cs-strip-num display-font">CH · 01</span>
+            <span class="cs-strip-line"></span>
+            <span class="cs-strip-pill"><span class="cs-strip-dot"></span>SHIPPED · 2024</span>
+          </div>
           <div class="cs-panel-content">
             <span class="cs-panel-tag">RECRUITMENT · SAAS</span>
+            <div class="cs-chips">
+              <span class="cs-chip">React</span>
+              <span class="cs-chip">PHP</span>
+              <span class="cs-chip">MySQL</span>
+              <span class="cs-chip cs-chip--metric">+5K Users</span>
+            </div>
             <h2 class="cs-panel-title display-font">Pekamy<br>Freshminds</h2>
             <p>Pekamy Fresh Minds is a talent-connection platform built to bridge the gap between graduates, interns, and companies in search of skilled individuals. This case study explores the end-to-end process of designing and developing the platform — from crafting a clean, user-focused interface to building a secure backend system.</p>
             <p>The website features a smooth onboarding experience where users can sign up, register, and create profiles to showcase their skills, while companies can browse, shortlist, and connect with potential candidates. The goal was to deliver a modern, responsive, and efficient platform that empowers young professionals and simplifies the hiring process for organizations.</p>
@@ -109,8 +191,19 @@
 
         <section class="cs-panel cs-panel--cream" id="Everyday Motors">
           <span class="cs-panel-num display-font">02</span>
+          <div class="cs-chapter-strip">
+            <span class="cs-strip-num display-font">CH · 02</span>
+            <span class="cs-strip-line"></span>
+            <span class="cs-strip-pill"><span class="cs-strip-dot"></span>SHIPPED · 2025</span>
+          </div>
           <div class="cs-panel-content">
             <span class="cs-panel-tag">AUTOMOTIVE · COMMERCE</span>
+            <div class="cs-chips">
+              <span class="cs-chip">JavaScript</span>
+              <span class="cs-chip">PHP</span>
+              <span class="cs-chip">MySQL</span>
+              <span class="cs-chip cs-chip--metric">+200 Listings</span>
+            </div>
             <h2 class="cs-panel-title display-font">Everyday<br>Motors</h2>
             <p>Everyday Motors is a modern automotive company focused on redefining car sales and service accessibility through technology. This case study highlights the design and development of their digital platform — built to showcase available vehicles, streamline customer inquiries, and enhance the overall user experience.</p>
             <p>As the lead developer, I was responsible for both front-end and back-end implementation. I designed a visually appealing, responsive interface using HTML, CSS, and JavaScript, and integrated PHP and MySQL to handle vehicle data, customer registrations, and inquiry forms securely.</p>
@@ -125,8 +218,19 @@
 
         <section class="cs-panel cs-panel--black" id="Solana Copy Trading Bot">
           <span class="cs-panel-num display-font">03</span>
+          <div class="cs-chapter-strip">
+            <span class="cs-strip-num display-font">CH · 03</span>
+            <span class="cs-strip-line"></span>
+            <span class="cs-strip-pill"><span class="cs-strip-dot"></span>LIVE · 2025</span>
+          </div>
           <div class="cs-panel-content">
             <span class="cs-panel-tag">BLOCKCHAIN · AUTOMATION</span>
+            <div class="cs-chips">
+              <span class="cs-chip">Node.js</span>
+              <span class="cs-chip">Web3.js</span>
+              <span class="cs-chip">Solana</span>
+              <span class="cs-chip cs-chip--metric">~120ms latency</span>
+            </div>
             <h2 class="cs-panel-title display-font">Solana<br>Copy Bot</h2>
             <p>The Solana Copy Trading Bot is a powerful automation tool designed to mirror transactions from specific whale wallets on the Solana blockchain. This case study explores the development of a secure, efficient, and scalable Telegram-integrated bot that allows traders to automatically replicate successful trades in real-time.</p>
             <p>The bot was built using Node.js and integrated with the Solana Web3.js library to fetch and execute blockchain transactions. The Telegram interface was implemented using the Telegram Bot API, providing users with simple commands for wallet linking, copy settings, and real-time notifications. Security was prioritized through encrypted private key storage and restricted API access.</p>
@@ -141,8 +245,19 @@
 
         <section class="cs-panel cs-panel--yellow" id="Secure VPN Application">
           <span class="cs-panel-num display-font">04</span>
+          <div class="cs-chapter-strip">
+            <span class="cs-strip-num display-font">CH · 04</span>
+            <span class="cs-strip-line"></span>
+            <span class="cs-strip-pill"><span class="cs-strip-dot"></span>RELEASED · 2026</span>
+          </div>
           <div class="cs-panel-content">
             <span class="cs-panel-tag">MOBILE · SECURITY</span>
+            <div class="cs-chips">
+              <span class="cs-chip">Flutter</span>
+              <span class="cs-chip">SoftEther</span>
+              <span class="cs-chip">iOS / Android</span>
+              <span class="cs-chip cs-chip--metric">256-bit AES</span>
+            </div>
             <h2 class="cs-panel-title display-font">Secure<br>VPN App</h2>
             <p>The Secure VPN Mobile App project was developed to bring flexible VPN connectivity to both iOS and Android users using the SoftEther VPN protocol. This case study highlights the process of building a cross-platform mobile solution with a smooth, privacy-focused experience and modern UI.</p>
             <p>The app was built using Flutter for cross-platform compatibility, ensuring consistent performance on both platforms. The backend integration leveraged SoftEther's open-source libraries combined with secure API endpoints to manage server lists, authentication, and connection logs. Additional focus was placed on connection stability, low latency, and end-to-end encryption.</p>
@@ -169,37 +284,65 @@
   </main>
 
   <!-- Footer -->
-  <footer class="site-footer">
-    <div class="footer-upper">
-      <div class="footer-col">
-        <p class="footer-col-label">SOCIAL</p>
-        <a href="https://www.instagram.com/_zikora.__?igsh=NmtidXp3OGE3b2Mw" class="footer-link" target="_blank" rel="noopener">INSTAGRAM</a>
-        <a href="https://x.com/HACKWITHZIK?t=9xLb6f-1sVy4CgdFp2sOWw&s=09" class="footer-link" target="_blank" rel="noopener">TWITTER&thinsp;/&thinsp;X</a>
-        <a href="https://github.com/Zikrypt" class="footer-link" target="_blank" rel="noopener">GITHUB</a>
-        <a href="https://www.snapchat.com/add/ziggy005?share_id=0yUR2HupNZg&locale=en-NG" class="footer-link" target="_blank" rel="noopener">SNAPCHAT</a>
-      </div>
-      <div class="footer-center-col">
-        <a href="#" class="footer-back-top">BACK TO TOP ↑</a>
-      </div>
-      <div class="footer-col footer-col--right">
-        <p class="footer-col-label">NAVIGATION</p>
-        <a href="index.html" class="footer-link">HOME</a>
-        <a href="projects.html" class="footer-link">WORKS</a>
-        <a href="casestudy.html" class="footer-link">CASE STUDY</a>
-        <a href="contact.html" class="footer-link">CONTACT</a>
+  <footer class="site-footer footer-2026">
+    <div class="ftr-bg" aria-hidden="true"></div>
+    <section class="ftr-hero">
+      <span class="ftr-eyebrow">[ THE END · OR THE START ]</span>
+      <h2 class="ftr-headline display-font">
+        <span class="ftr-line">LET'S BUILD</span>
+        <span class="ftr-line ftr-line--italic">something <em>bold.</em></span>
+      </h2>
+      <a href="contact.html" class="ftr-cta">
+        <span class="ftr-cta-label">START A PROJECT</span>
+        <span class="ftr-cta-circle" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><line x1="5" y1="19" x2="19" y2="5"/><polyline points="9 5 19 5 19 15"/></svg>
+        </span>
+      </a>
+    </section>
+    <a class="ftr-email" href="mailto:zikoraokelosam@gmail.com">
+      <span class="ftr-email-label">DROP A LINE</span>
+      <span class="ftr-email-addr display-font">zikoraokelosam@gmail.com</span>
+      <span class="ftr-email-icon">↗</span>
+    </a>
+    <div class="ftr-marquee" aria-hidden="true">
+      <div class="ftr-marquee-track">
+        <span>★ LET'S BUILD ★ LET'S BUILD ★ LET'S BUILD ★ LET'S BUILD ★ LET'S BUILD ★ LET'S BUILD ★</span>
+        <span>★ LET'S BUILD ★ LET'S BUILD ★ LET'S BUILD ★ LET'S BUILD ★ LET'S BUILD ★ LET'S BUILD ★</span>
       </div>
     </div>
-    <div class="footer-marquee-wrap">
-      <div class="footer-marquee-track">
-        <span class="footer-marquee-text display-font">LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        <span class="footer-marquee-text display-font" aria-hidden="true">LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;LET'S BUILD&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <div class="ftr-cols">
+      <div class="ftr-col">
+        <span class="ftr-col-label">— SIGNATURE</span>
+        <p class="ftr-sig">Okelo Zikora</p>
+        <p class="ftr-sig-sub">Full-stack developer · Web3 builder · crafting from Lagos since 2022.</p>
+        <span class="ftr-status"><span class="ftr-status-dot"></span> AVAILABLE Q3 / Q4 · 2026</span>
+      </div>
+      <div class="ftr-col">
+        <span class="ftr-col-label">— SITEMAP</span>
+        <a href="index.html" class="ftr-nav">Home <span>↗</span></a>
+        <a href="projects.html" class="ftr-nav">Works <span>↗</span></a>
+        <a href="casestudy.html" class="ftr-nav">Case Study <span>↗</span></a>
+        <a href="contact.html" class="ftr-nav">Contact <span>↗</span></a>
+      </div>
+      <div class="ftr-col">
+        <span class="ftr-col-label">— ELSEWHERE</span>
+        <a class="ftr-nav" target="_blank" rel="noopener" href="https://github.com/Zikrypt">Github <span>↗</span></a>
+        <a class="ftr-nav" target="_blank" rel="noopener" href="https://www.linkedin.com/in/zikora-okelo-8818252a8">LinkedIn <span>↗</span></a>
+        <a class="ftr-nav" target="_blank" rel="noopener" href="https://x.com/HACKWITHZIK">Twitter / X <span>↗</span></a>
+        <a class="ftr-nav" target="_blank" rel="noopener" href="https://www.instagram.com/_zikora.__?igsh=NmtidXp3OGE3b2Mw">Instagram <span>↗</span></a>
+      </div>
+      <div class="ftr-col ftr-col--time">
+        <span class="ftr-col-label">— LIVE</span>
+        <div class="ftr-clock display-font" id="footer-time">--:-- --</div>
+        <div class="ftr-coords">LAGOS · NG &nbsp;/&nbsp; 6.5244°N · 3.3792°E</div>
+        <a href="#" class="ftr-top">BACK TO TOP <span>↑</span></a>
       </div>
     </div>
-    <div class="footer-bottom">
-      <span class="footer-bottom-text">LAGOS,&thinsp;NG</span>
-      <span class="footer-bottom-text" id="footer-time">--:-- --</span>
-      <span class="footer-bottom-text">6.5244°N&thinsp;3.3792°E</span>
-      <span class="footer-bottom-text">©2026 ALL RIGHTS RESERVED</span>
+    <div class="ftr-wordmark display-font" aria-hidden="true">ZIKORA</div>
+    <div class="ftr-legal">
+      <span>© 2026 · OKELO ZIKORA — ALL RIGHTS RESERVED</span>
+      <span>DESIGNED &amp; BUILT IN LAGOS · NIGERIA 🌴</span>
+      <span>v.2026.04 · LAST UPDATE APRIL 2026</span>
     </div>
   </footer>
 

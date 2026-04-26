@@ -1055,6 +1055,76 @@ function initCardHoverVideo() {
 }
 
 /* ============================================================
+   MENU TOGGLE + FULLSCREEN OVERLAY
+   - Click toggles .opened on the button + .is-open on the overlay
+   - Hovering a link recolours the toggle icon to match the route
+   - ESC closes; body scroll locked while open
+   ============================================================ */
+function initMenu() {
+  const toggle  = document.getElementById('menuToggle');
+  const overlay = document.getElementById('menuOverlay');
+  if (!toggle || !overlay) return;
+
+  // Hoist the toggle to body root so it escapes the
+  // site-header's mix-blend-mode: difference stacking context.
+  if (toggle.parentElement && toggle.parentElement.classList.contains('site-header')) {
+    document.body.appendChild(toggle);
+  }
+
+  const icon  = toggle.querySelector('.menuToggleIcon');
+  const links = overlay.querySelectorAll('.menu-link');
+
+  const setOpen = (open) => {
+    toggle.classList.toggle('opened', open);
+    overlay.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    overlay.setAttribute('aria-hidden', open ? 'false' : 'true');
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (window.__lenis) {
+      try { open ? window.__lenis.stop() : window.__lenis.start(); } catch (_) {}
+    }
+  };
+
+  toggle.addEventListener('click', () => {
+    setOpen(!toggle.classList.contains('opened'));
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && toggle.classList.contains('opened')) setOpen(false);
+  });
+
+  /* When a menu link is clicked, close the overlay immediately so the
+     page-transition wipe (which is triggered by the same click via the
+     existing global a[href] handler) is visible without the dark menu
+     panel sitting on top. We also unlock body scroll so the next page
+     boots clean. The page-transition handler's preventDefault still runs
+     and drives the actual navigation. */
+  overlay.querySelectorAll('.menu-link').forEach((link) => {
+    link.addEventListener('click', () => {
+      setOpen(false);
+    });
+  });
+
+  // Recolour the toggle icon to match the hovered link's accent
+  const root = getComputedStyle(document.documentElement);
+  const palette = {
+    home:    root.getPropertyValue('--mt-home').trim()    || '#729E84',
+    works:   root.getPropertyValue('--mt-works').trim()   || '#FFDB00',
+    study:   root.getPropertyValue('--mt-study').trim()   || '#35180A',
+    contact: root.getPropertyValue('--mt-contact').trim() || '#FFA5C6',
+  };
+  links.forEach((link) => {
+    const route = link.dataset.route;
+    link.addEventListener('mouseenter', () => {
+      if (icon && palette[route]) icon.style.background = palette[route];
+    });
+    link.addEventListener('mouseleave', () => {
+      if (icon) icon.style.background = '';
+    });
+  });
+}
+
+/* ============================================================
    FAQ ACCORDION (contact.html)
    Closes other items when one opens (single-open behaviour).
    ============================================================ */
@@ -1173,6 +1243,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initForm();
   initPageTransitions();
   initCardHoverVideo();
+  initMenu();
 
   const lenis = initLenis();
   if (lenis) window.__lenis = lenis;
